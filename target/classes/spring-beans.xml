@@ -1,67 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx.xsd">
-        
-	<context:component-scan base-package="com.yc.car"> 
-	<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.RequestMapping"/>
-	<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.RequestBody"/>
+        http://www.springframework.org/schema/tx/spring-tx.xsd"
+        >
+
+	<context:component-scan base-package="com.yc.car">
+		<!-- 以下注解不解析 -->
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.RequestMapping"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ResponseBody"/>
 	</context:component-scan>
-
-	<context:property-placeholder location="classpath:db.properties" />
-
-	<!-- 配置数据源 -->
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-		<property name="driverClass" value="${driver}"></property>
+	
+    <context:property-placeholder location="classpath:db.properties"/>
+    
+    <!-- 配置数据源 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    	<property name="driverClass" value="${driver}"></property>
 		<property name="jdbcUrl" value="${url}"></property>
 		<property name="user" value="${user}"></property>
 		<property name="password" value="${password}"></property>
-	</bean>
-
-	<!-- 让mybatis从上面这个数据源中获取连接 -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<!-- 指定数据源 -->
+    </bean>
+    
+    <!-- 让mybatis从上面这个数据源中获取连接 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 配置数据源 -->
 		<property name="dataSource" ref="dataSource"></property>
-		<!-- 配置映射文件的路径 -->
-		<property name="mapperLocations" value="classpath:mapper/*Mapper.xml"></property>
-		<!-- 别名配置typeAliasesPackage : String -->
-		<property name="typeAliasesPackage" value="com.yc.car.entity"></property>
-	</bean>
-	
-	<!-- 配置mybatis的映射接口代理，让映射文件也对应的接口直接关联 -->
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<!-- 注意此时sqlSessionFactoryBeanName 的类型是String, 所有后面通过value给定的而不是fre-->
-		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
 		
-		<!-- mybatis映射文件对应的接口的包路径 -->
-		<property name="basePackage" value="com.yc.car.mapper"></property>
+		<!-- 设置别名 -->
+		<property name="typeAliasesPackage" value="com.yc.car.entity"></property>
+		
+		<!-- mybatis映射sql语句文件路径 -->
+		<property name="mapperLocations" value="classpath:mapper/*Mapper.xml"></property>
 	</bean>
 	
-	<!-- 配置事务 -->
+	<!-- 配置mybatis的映射接口代理，让映射文件与对应的接口直接关联 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- mybatis映射文件对应的接口所在的包路径 -->
+		<property name="basePackage" value="com.yc.car.mapper"></property>
+		
+		<!-- 此时sqlSessionFactoryBeanName 的类型是 String，所以后面通过value给定而不是ref -->
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>
+	
+	<!-- 配置事物 -->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<!-- 需要开启事物的数据源 -->
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	
-	<!-- 启用事务注解 -->
+	<!-- 启用事物注解 -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
-	<!-- 文件上传 -->
+	
+	<!-- 文件上传的 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-	<property name="defaultEncoding" value="utf-8"></property>
-	<property name="maxUploadSize" value="1028576000"></property>
-	<property name="maxInMemorySize" value="4096"></property>
+		<property name="defaultEncoding" value="utf-8"></property>
+		<property name="maxUploadSize" value="1048576000"></property>
+		<property name="maxInMemorySize" value="4096"></property>
 	</bean>
-	
-	<bean id="sendMailUtil" class="com.yc.car.util.SendMailUtil">
-		<property name="sendEmail" value="1713388974@qq.com"></property>
-		<property name="pwd" value="WHQ1713388974"></property>
-	</bean>
-	
-	 <import resource="classPath:spring-redis.xml"/>
+    
+    <!-- 发送邮件 -->
+    <bean id="sendMailUtil" class="com.yc.car.util.SendMailUtil">
+    	<property name="sendEmail" value="897953910@qq.com"></property>
+    	<property name="pwd" value="pubyinmjgjtebbea"></property>
+    </bean>
+    
+    <import resource="spring-redis.xml"/>
 </beans>
-        
