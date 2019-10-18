@@ -1,0 +1,119 @@
+$(function(){
+    //初始化
+    //$('.dialog_box').mCustomScrollbar({setTop: '-'+$('.dialog_box .wrapper').height()+'px'});
+	$(".di_left li:first").children('.name').children('a').css('display','none');
+    $(".di_left li").click(function() {
+        $(this).siblings('li').removeClass('active');
+        $(this).addClass('active');  
+        $(this).children('.name').children('a').css('display','none');                    
+    });
+    $(".di_left .close").click(function() {
+        $(this).parent().css('display','none');                
+    });
+    $("#clase_1").click(function() {
+        $("#grab_a_single_1").css('display','none');                
+    });
+    $("#clase_2").click(function() {
+        $("#grab_a_single_2").css('display','none');                
+    });
+    $("#clase_3").click(function() {
+        $("#grab_a_single_3").css('display','none');                
+    });
+    $("#clase_4").click(function() {
+        $("#grab_a_single_4").css('display','none');                
+    });
+    $(".di_left .close").click(function() {
+        $(this).parent().css('display','none');                
+    });
+    $(".language_w .rh").click(function() {
+        $(".div_w_1").css("display","block");          
+    });
+    $(".btn_v_2").click(function() {
+        $(".div_w_1").css("display","none");          
+    });
+    $(".con_v .con_v_btn").click(function() {
+       // $(".background,.popup_w").css('display','block');                
+    });
+    $(".close_br").click(function() {
+        $(".background,.popup_w").css('display','none');     
+        $('body').removeClass('active_w');
+       
+    });
+    $("#chatRoom").delegate(".img","click",function() {
+        $(".background,.popup_n").css('display','block');                
+    });
+    $(".close_btn").click(function() {
+        $(".background,.popup_n").css('display','none');                
+    });
+    $('.w_btn_2').click(function(){
+        var html = $(this).parent().siblings('.written').html();
+        $(this).parent().parent().siblings().children('textarea').html("").append(html);
+        $(this).parent().parent().siblings().css("display","block");
+        $(this).parent().parent().css("display","none");
+    });
+    $(".btn_z_2").click(function() {
+        $(this).parent().parent().siblings().css("display","block"); 
+        $(this).parent().parent().css("display","none");      
+    });
+    $('.btn_z_1').click(function(){
+        var html = $(this).parent().siblings("textarea").val();
+        $(this).parent().parent().siblings().children('.written').html("").append(html);
+        $(this).parent().parent().siblings().css("display","block");
+        $(this).parent().parent().css("display","none");
+    });
+    $(".w_btn_3").click(function() {
+        $(this).parent().parent().parent().css("display","none");         
+    });
+    $("#the_btn_1").click(function() {
+        $("#the_btn_1").toggleClass("active");         
+    });
+    $("#the_btn_4").click(function() {
+        $("#the_btn_4").toggleClass("active");         
+    });
+    $(".iconP").click(function() {
+        $(".the_btn_3").toggleClass("active");         
+    });
+    $(".select p").click(function() {
+        $(this).parent().toggleClass("active");         
+    });
+    $(".tab_content_all").hide(); 
+    $("ul.tabs_all li:first").addClass("active").show();
+    $(".tab_content_all:first").show(); 
+    $("ul.tabs_all li").click(function() {  
+        $("ul.tabs_all li").removeClass("active"); 
+        $(this).addClass("active"); 
+        $(".tab_content_all").hide(); 
+        var activeTab = $(this).find("a").attr("href"); 
+        $(activeTab).fadeIn(); 
+        return false;  
+    });
+    $(".tab_content_br").hide(); 
+    $("ul.tabs_br li:first").addClass("active").show();
+    $(".tab_content_br:first").show(); 
+    $("ul.tabs_br li").click(function() {  
+        $("ul.tabs_br li").removeClass("active"); 
+        $(this).addClass("active"); 
+        $(".tab_content_br").hide(); 
+        var activeTab = $(this).find("a").attr("href"); 
+        $(activeTab).fadeIn(); 
+        return false;  
+    });
+}); 
+$(document).bind("click",function(e){ 
+    var target = $(e.target); 
+    if(target.closest("#the_btn_4").length == 0){ 
+       $("#the_btn_4").removeClass('active'); 
+    } 
+}) 
+$(document).bind("click",function(e){ 
+    var target = $(e.target); 
+    if(target.closest(".the_btn_3").length == 0){ 
+       $(".the_btn_3").removeClass('active'); 
+    } 
+})
+$(document).bind("click",function(e){ 
+    var target = $(e.target); 
+    if(target.closest("#the_btn_1").length == 0){ 
+       $("#the_btn_1").removeClass('active'); 
+    } 
+})

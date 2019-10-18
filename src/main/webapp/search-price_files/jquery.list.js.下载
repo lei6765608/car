@@ -1,0 +1,571 @@
+var po,previd,isCityList=false;
+var dftCity = "dftCity";
+$(function(){
+	$("#city-down a.cur").attr("id",dftCity);
+
+	
+	$(".sort-wrap").click(function(){
+		return false;	
+	}); 
+	$(".sort-list li").click(function(){
+		var type = $(this).attr("type");
+		if($(this).hasClass("cur")){
+			$(".sort-list li").removeClass("cur");
+			previd = '';
+			$("."+type).fadeOut();
+		}else{
+			$(".sort-list li").removeClass("cur");
+			$(this).addClass("cur");
+			
+			
+			if(previd==type){
+				return false;	
+			}
+			if(previd!=''){
+				$("."+previd).fadeOut();
+			}
+			$("."+type).fadeIn();
+			if(!isCityList && type=='select-city'){
+				isCityList = true;
+				var myCityList = new IScroll('#city-down', {
+					scrollbars: true,
+					mouseWheel: true,
+					interactiveScrollbars: true,
+					shrinkScrollbars: 'scale',
+					fadeScrollbars: true,
+					click: true
+				});
+			}
+			po = $(this);
+			previd = type;
+			
+			$(document).unbind("click");
+			$(document).bind("click",function(){
+				$("."+previd).fadeOut();
+				previd = '';
+				$(this).unbind("click");
+				$(".sort-list li").removeClass("cur");
+			});
+		}
+		$(".select-more .select").removeClass("cur");
+		return false;
+	});
+	
+	
+	
+	//更多筛选的下拉控制
+	var j=1;
+	$(".select-more .select").bind("click",function(){
+		this.lock = true;
+		j++;
+		//$(this).css("z-index",j).find("ul").show();
+		if($(this).hasClass("cur")){
+			$(this).css("z-index",j).removeClass("cur");
+		}else{
+			$(".select-more .select").removeClass("cur");
+			$(this).css("z-index",j).addClass("cur");
+		}
+		
+	});
+	if("ontouchend" in document){
+		if($(".sort-list").size()>0){
+			$(".sort-list").addClass("sort-touch");
+		}
+	}else{
+		$(".select-more .select").bind("mouseover",function(){
+			if(this.t){
+				clearTimeout(this.t);
+			}
+			if(this.lock){
+				var _this = $(this);
+				_this.removeClass("cur").addClass("cur");
+			}
+		}).bind("mouseout",function(){
+			var _this = $(this);
+			var __this = this;
+			clearTimeout(this.t);
+			this.t = setTimeout(function(){
+				_this.removeClass("cur");
+				__this.lock = false;
+				
+			},200);
+		});	
+	}
+	$(".select-more .select .ul").click(function(){
+		return false;	
+	});
+	$(".select-more .select").find("li").bind("click",function(){
+		var txt = $(this).find("a").html();
+		$(this).parent().parent().parent().find("p").html(txt);
+		$(this).parent().parent().parent().removeClass("cur");
+		var t = $(this).parent().parent().parent().attr("id");
+		if($(this).index()==0){
+			if($('#p'+t).size()>0){
+				$('#p'+t).remove();
+				if($("#selected-list").html()==''){
+					if($(".sort").hasClass("cur")){
+						$(".sort").removeClass("cur")
+					}
+				}
+			}
+			return false;
+		}
+		//$('.sort-select').show();
+		if(!$(".sort").hasClass("cur")){
+			$(".sort").addClass("cur")
+		}
+		
+		
+		if($('#p'+t).size()>0){
+			$('#p'+t+' span').html(txt);
+		}else{
+			var div = '<p id="p'+t+'" class="item"><span>'+txt+'</span><a href="javascript:;" class="btn-delete" onClick="selectReset(\''+t+'\')"></a></p>';
+			$("#selected-list").append(div);
+		}
+		resetSortHeight();
+		return false;
+	});
+	
+	/*var db = 0;
+	$(".list-four").delegate(".icon-ratio","click",function(){
+		if($(this).hasClass("cur")){
+			$(this).removeClass("cur");
+			db--;
+			$(".fix-right .first-icon .redDot").show().html(db);
+			if(db<=0){
+				$(".fix-right .first-icon .redDot").hide();
+			}
+		}else{
+			if($('.icon-ratio.cur').size()>=3){
+				alert("只能选择3款车对比！");
+				return false;	
+			}
+			$(this).addClass("cur");
+			var _obj = $(this).parent().parent().find("a>img");
+			var img = _obj.attr("src");
+			var left = _obj.offset().left+(_obj.width()-120)/2;
+			var top = _obj.offset().top-$(window).scrollTop()+(_obj.height()-(_obj.width()/_obj.height()*120));
+			addPt(0,img,left,top,function(){
+				db++;
+				$(".fix-right .first-icon .redDot").show().html(db);
+			});
+		}
+	});
+	$(".list-four").delegate(".icon-collection","click",function(){
+		if($(this).hasClass("cur")){
+			$(this).removeClass("cur");
+		}else{
+			$(this).addClass("cur");
+			var _obj = $(this).parent().parent().find("a>img");
+			var img = _obj.attr("src");
+			var left = _obj.offset().left+(_obj.width()-120)/2;
+			var top = _obj.offset().top-$(window).scrollTop()+(_obj.height()-(_obj.width()/_obj.height()*120));
+			addPt(1,img,left,top,function(){
+
+			});
+		}
+	});
+	*/
+	//排序条件
+	var sis={};
+	$(".sortBox .select p,.sortBox .select .icon-down").bind("click",function(){
+		sis.lock = true;
+		j++;
+		if($(this).parent().hasClass("cur")){
+			$(this).parent().removeClass("cur");
+		}else{
+			$(this).parent().addClass("cur");
+			
+			
+			$(document).unbind("click");
+			$(document).bind("click",function(){
+				$(this).unbind("click");
+				$(".sortBox .select").removeClass("cur");
+			});
+			return false;
+		}
+	});
+	if("ontouchend" in document){
+		
+	}else{
+		$(".sortBox .select").bind("mouseover",function(){
+			if(this.t){
+				clearTimeout(this.t);
+			}
+			if(sis.lock){
+				var _this = $(this);
+				_this.removeClass("cur").addClass("cur");
+			}
+		}).bind("mouseout",function(){
+			var _this = $(this);
+			clearTimeout(this.t);
+			this.t = setTimeout(function(){
+				_this.removeClass("cur");
+				sis.lock = false;
+			},100);
+		});
+	}
+	$(".sortBox .select").find("li").bind("click",function(){
+		var txt = $(this).find("a").html();
+		$(this).parent().parent().find("p").html(txt);
+		$(this).parent().parent().removeClass("cur");
+	});
+	
+	
+	$(window).bind("scroll",function(){
+		if($(".select-city").is(":visible")){
+			$(document).click();
+		}	
+		if($(".select-type").is(":visible")){
+			$(document).click();
+		}	
+		//if($(".select-price").is(":visible")){
+		//	$(document).click();
+		//}	
+		//if($(".select-more").is(":visible")){
+		//	//$(document).click();
+		//}	
+		
+		if($(".sortBox .select").hasClass("cur")){
+			$(".sortBox .select").removeClass("cur");
+		}
+		
+		if("ontouchend" in document){
+
+			
+		}else{
+			$(".list-four .item .m").hide();	
+		}
+		//$(".sort-list li").removeClass("cur");
+		
+		var top = $(".sort").offset().top;
+		
+		if($(window).scrollTop() >= top){
+			if(!$(".sort-position").hasClass("sort-position-cur")){
+				$(".sort-position").addClass("sort-position-cur");
+			}
+		}else{
+			if($(".sort-position").hasClass("sort-position-cur")){
+				$(".sort-position").removeClass("sort-position-cur");
+			}
+		}
+		
+	}).bind("resize",function(){
+		resetSortHeight();
+	});
+	resetSortHeight();
+	$(".list-four").delegate(".item .mask","click",function(){
+		$(this).parent().hide();
+		$(this).parent().parent().parent().bind("mouseout",function(){
+			$(this).unbind("mouseout");
+			$(this).find(".m").removeAttr("style");
+		});
+	});
+	$(".list-four").delegate(".item .close","click",function(){
+		$(this).parent().hide();
+	});
+
+
+	if("ontouchend" in document){
+		$(".list-four").delegate(".item .db-more","touchstart",function(){
+			$(".list-four .m").hide();
+			$(this).parent().find(".m").show();
+			
+			//是否收藏
+			var _this=$(this);
+			if($("#header input[name='user']").val()!=null){
+				if(_this.parent().find(".m a:eq(1)").hasClass("cur")){
+					return;
+				}
+				var code =_this.parent().find(".m a:eq(0)").attr("id");
+				$.post(path+"/c_findCollection",{ci_cCode:code},function(data){
+					if(data=="true"){
+						_this.parent().find(".m a:eq(1)").addClass("cur");
+					}
+				});
+			}
+			return false;
+		});
+		$(".list-four").delegate(".item .db-more","mouseout",function(){
+			var _this = $(this);
+			_this.parent().find(".m").hide();
+			return false;
+		});
+	}else{
+		$(".list-four").delegate(".item","mouseover",function(){
+			if($(window).width() >800){
+				$(this).find(".m").show();	
+			}
+		});
+		
+		$(".list-four").delegate(".item","mouseout",function(){
+			if($(window).width() >800){
+				$(this).find(".m").hide();	
+			}
+		});
+		
+		
+		$(".list-four").delegate(".item .db-more","click",function(){
+			$(".list-four .m").hide();
+			$(this).parent().find(".m").show();
+			
+			$(document).unbind("click");
+			$(document).bind("click",function(){
+				$(this).unbind("click");
+				$(".list-four .m").hide();
+			});
+			return false;
+		});
+	}
+});
+//添加收藏或对比
+function addPt(n,img,left,top,callback){
+	if($("#addPt").size()<=0){
+		$("body").append("<img src='"+img+"' id='addPt' />");
+	}else{
+		$("#addPt").attr("src",img);
+	}
+	var y = $(".fix-right .first-icon").offset().top-$(window).scrollTop();
+	var x = $(".fix-right .first-icon").offset().left;
+	
+	if(n!=0){
+		y = $(".fix-right .second-icon").offset().top-$(window).scrollTop();
+	}
+	$("#addPt").css({width:120,opacity:.5,display:"block",position:'fixed',left:left,top:top,'z-index':600}).stop().animate({
+		left:x,
+		top:y,
+		width:0,
+		opacity:.2
+	},400,function(){
+		$(this).hide();
+		if(callback){
+			callback();	
+		}
+	});
+}
+
+//筛选 城市
+function changeCity(obj){
+	var txt = $(obj).html();
+	$("#down-city .df").css({color:'#c03'});
+	$("#down-city .df").html(txt);	
+	$("."+previd).fadeOut();
+	previd = '';
+	
+	$(".sort-list li").removeClass("cur");
+	$(".city-list a").removeClass("cur");
+	obj.className = "cur";
+	
+	$(".select-city").fadeOut();
+}
+//筛选 车型
+function changeType(obj){
+	var txt = $(obj).html();
+	$("#down-type .df").html(txt);
+	$("."+previd).fadeOut();
+	previd = '';
+	if(txt!=$(".type-list li").eq(0).text()){
+		$("#down-type .df").css({color:'#c03'});
+	}else{
+		$("#down-type .df").removeAttr("style");
+	}
+
+	$(".sort-list li").removeClass("cur");
+}
+//筛选品牌
+function changeBrand(obj){
+
+  var txt=$(obj).text();
+  $("#down-brand .df").html(txt);
+  $("."+previd).fadeOut();
+  previd='';
+    if(txt!=$(".brand-list li").eq(0).text()){
+        $("#down-brand .df").css({color:'#c03'});
+    }else{
+        $("#down-brand .df").removeAttr("style");
+    }
+    $(".sort-list li").removeClass("cur");
+	if(txt=="其它品牌"){
+        $("#down-type .df").html("不限车系");
+        $(".select-more .ul").html("不限车型");
+        $("#down-price .df").html("不限价格");
+        $(" .select-type .type-list").hide();
+	}else{
+       $(" .select-type  .type-list").show();
+	}
+    $(".sort-list li").removeClass("cur");
+}
+//筛选 价格
+function changePrice(obj){
+	var txt = $(obj).html();
+	$("#down-price .df").html(txt);	
+	$("."+previd).fadeOut();
+	previd = '';
+
+	if(txt!=$(".price-list").eq(0).text()){
+		$("#down-price .df").css({color:'#c03'});
+	}else{
+		$("#down-price .df").removeAttr("style");
+	}
+
+	$(".sort-list li").removeClass("cur");
+}
+//全部重置
+function selectResetAll(){
+	
+	$("#selected-list").html('');
+	$(".sort").removeClass("cur");
+	
+	for(i=0;i<$(".select-more .select").size();i++){
+		$(".select-more .select").eq(i).find("li").eq(0).click();
+	}
+	$(".df").removeAttr("style");
+	
+	
+	
+	$("#down-city .df").html($("#"+dftCity).text());
+	$("#city-down a").removeClass("cur");
+	$("#"+dftCity).addClass("cur");
+	
+	
+	$("#down-type .df").html("不限车型");
+	$("#down-brand .df").html("不限品牌");
+	$("#down-price .df").html("不限价格");
+	resetSortHeight();
+}
+//自定义价格范围
+function price(){
+	var start = $("#price1").val();
+	var end = $("#price2").val();
+	var txt = start + "-" + end + "万";
+	var reg = /^[1-9]?\d+$/;
+	if(reg.test(start) && end=="" && start >0){
+		txt = start+"万以上";
+	}
+	if(reg.test(end) && start=="" && end > 0){
+		txt = end+"万以下";
+	}
+	if(start=="" && end==""){
+		return false;
+	}
+	$("#down-price .df").html(txt);
+	previd = '';
+	$("#down-price .df").css({color:'#c03'});
+	$(".select-price").fadeOut();
+	$(".sort-list li").removeClass("cur");
+	
+	
+}
+//自定义车龄范围
+function year(){
+	var start = $("#y1").val();
+	var end = $("#y2").val();
+	var txt = start + "-" + end + "年";
+	var reg = /^[1-9]?\d+$/;
+	if(reg.test(start) && end=="" && start >0){
+		txt = start+"年以上";
+	}
+	if(reg.test(end) && start=="" && end > 0){
+		txt = end+"年以下";
+	}
+	if(start=="" && end==""){
+		return false;
+	}
+	previd = '';
+	$(".select-more").fadeOut();
+	$(".sort-list li").removeClass("cur");
+	
+	$("#s-age p").html(txt);
+	if($('#ps-age').size()>0){
+		$('#ps-age span').html(txt);
+	}else{
+		var div = '<p id="ps-age" class="item"><span>'+txt+'</span><a href="javascript:;" class="btn-delete" onClick="selectReset(\'s-age\')"></a></p>';
+		$("#selected-list").append(div);
+	}
+	if(!$(".sort").hasClass("cur")){
+		$(".sort").addClass("cur")
+	}
+	
+	resetSortHeight();
+}
+//自定义公里范围
+function km(){
+	var start = $("#k1").val();
+	var end = $("#k2").val();
+	var txt = start + "-" + end + "万公里";
+	var reg = /^[1-9]?\d+$/;
+	if(reg.test(start) && end=="" && start >0){
+		txt = start+"万公里以上";
+	}
+	if(reg.test(end) && start=="" && end > 0){
+		txt = end+"万公里以下";
+	}
+	if(start=="" && end==""){
+		return false;
+	}
+	previd = '';
+	$(".select-more").fadeOut();
+	$(".sort-list li").removeClass("cur");
+	
+	$("#s-mileage p").html(txt);
+	if($('#ps-mileage').size()>0){
+		$('#ps-mileage span').html(txt);
+	}else{
+		var div = '<p id="ps-mileage" class="item"><span>'+txt+'</span><a href="javascript:;" class="btn-delete" onClick="selectReset(\'s-mileage\')"></a></p>';
+		$("#selected-list").append(div);
+	}
+	if(!$(".sort").hasClass("cur")){
+		$(".sort").addClass("cur")
+	}
+	
+	resetSortHeight();
+}
+//删除所选
+function selectReset(n){
+	if(n==1){
+		$("#down-city .df").html("不限城市");
+		$('#p1').remove();
+	}
+	if(n==2){
+		$("#down-type .df").html("不限车型");
+		$('#p2').remove();
+	}
+	if(n==3){
+		$("#down-price .df").html("不限价格");
+		$('#p3').remove();
+	}
+	
+	if(n.length>3){
+		$('#p'+n).remove();
+		$('#'+n).find("li").eq(0).click();
+	}
+	if($("#selected-list").html()==""){
+		//$('.sort-select').hide();
+		if($(".sort").hasClass("cur")){
+			$(".sort").removeClass("cur")
+		}
+	}
+	resetSortHeight();
+}
+
+
+function resetSortHeight(){
+	$(".sort").height($(".sort-position").height());
+}
+ 
+$(document).ready(function(){
+	  $(".close").click(function(){
+	    $(".popup_ret,.background").css('display','none');
+	  });
+	});
+
+
+
+
+
+
+
+
+
+
+

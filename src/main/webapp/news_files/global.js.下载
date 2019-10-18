@@ -1,0 +1,89 @@
+/**
+ * @function：
+ * @extends jquery 1.8.3
+ * @fileOverview 世界公用
+ * @author Viliam
+ * @email 709694072@qq.com
+ * @version 1.1
+ * @date 2018/07/19
+ * Copyright (c) 2018-2020
+ *
+ */
+!function(win, $){
+    var $sdbar = $('#J_Sdbar');
+    var $leftShare = $('.left-box')
+    var global={
+        init:function(){
+
+        },
+        shareDia:function(){
+            var str_coll='<div class="share_dialog">' +
+                '<div class="m-title">分享给好友</div>' +
+                '<div class="share-list clearfix">' +
+                '<a href="javascript:;" class="weichat">微信好友</a>' +
+                '<a href="javascript:;" class="friends">朋友圈</a>' +
+                '<a href="javascript:;" class="sina">新浪微博</a>' +
+                '</div>' +
+                '</div>';
+
+            art.dialog({
+                id: 'shareComm',
+                lock: true,
+                fixed: true,
+                opacity:0.6,
+                drag: false,
+                width:350,
+                title: '<strong></strong>',
+                content: str_coll
+            });
+        },
+        toggleSdbar:function(){
+            var width = $('#J_WidthTemp').width();//101:本身导航宽度 | 147:距离内容10px
+            if (($(win).width() - width) / 2 <= 101 + 147 || $(win).scrollTop() <= 60) {
+                $sdbar.hide();
+                $leftShare.removeClass('active');
+            } else {
+                $(win).scrollTop() > 60 && $sdbar.show()
+                $(win).scrollTop() > 60 && $leftShare.addClass('active');
+            }
+            $sdbar.css('margin-left', width / 2 + 147);
+        }
+
+    };
+    global.init();
+    global.toggleSdbar();
+    // //分享按钮弹窗公用
+    // $('.J_shareTo').on('click',function(){
+    //     global.shareDia();
+    // });
+    //显示隐藏右侧竖型导航条
+    $(win).on('resize scroll', function(){
+        global.toggleSdbar();
+    });
+    $('.m-sections').mouseleave(function(){
+        $('#J_getCity').removeClass('cur')
+    })
+    //ajax城市切换
+    //$('.J_ajaxCity').on('click',function(){
+    //    var _cityName=$(this).attr('data-value');
+    //    $('#J_getCity').attr('data-value',_cityName);
+    //    $('.city-name').html(_cityName);
+    //    $('.user-loc').html(_cityName);
+    //});
+    //显示分数
+    $(".sec").each(function(index, element) {
+        var num=$(this).attr("tip");
+        var www=num*2*7.5;//
+        $(this).css("width",www);
+    });
+    // 处理购车助手 预约驾驶 位置
+    $('.cacl-box').css({
+        'margin-top':  '-' + $('.cacl-box').height() / 2 + 'px'
+    })
+    // 处理全局alert的 关闭
+    $('.aui_close,.common-model-cancel,.common-model-ok').click(function(){
+        $('.common-fade,.common-model').removeClass('active')
+    })
+
+
+}(window, jQuery);

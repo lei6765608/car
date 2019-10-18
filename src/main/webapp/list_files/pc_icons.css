@@ -1,0 +1,156 @@
+@font-face {
+  font-family: 'iconfont';
+  src: url('../../fonts/pc_audi.ttf');
+  
+  /* IE9*/
+}
+.touch-icons {
+  float: left;
+}
+[class^="touch-icon-"]:before,
+[class*=" touch-icon-"]:before {
+  font-family: 'iconfont';
+  margin: 0;
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  text-align: center;
+  font-variant: normal;
+  text-transform: none;
+}
+[class^="touch-icon-"]:before,
+[class*=" touch-icon-"]:before {
+  font-size: 20px;
+  color: #919191;
+  margin-top: -2px;
+  position: relative;
+  z-index: 999;
+}
+.touch-icon-collect:before {
+  content: '\e606';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-search:before {
+  content: '\e628';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-carf:before {
+  content: '\e630';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-share:before {
+  content: '\e632';
+  color: #333;
+  font-size: 18px;
+}
+.touch-icon-logo:before {
+  content: '\e627';
+  color: #333;
+  font-size: 24px;
+  z-index: 9;
+}
+.touch-icon-weibo:before {
+  content: '\e633';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-wechat:before {
+  content: '\e634';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-uname:before {
+  content: '\e635';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-identfy:before {
+  content: '\e636';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-clear:before {
+  content: '\e637';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-pwd:before {
+  content: '\e641';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-eye:before {
+  content: '\e642';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-position:before {
+  content: '\e631';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-hotline:before {
+  content: '\e605';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-kefu:before {
+  content: '\e607';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-mesg:before {
+  content: '\e610';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-gotop:before {
+  content: '\e643';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-wallets:before {
+  content: '\e625';
+  color: #ffbc42;
+  font-size: 19px;
+}
+.touch-icon-wallets2:before {
+  content: '\e625';
+  color: #cccccc;
+  font-size: 19px;
+}
+.touch-icon-more:before {
+  content: '\e617';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-ask:before {
+  content: '\e644';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-emails:before {
+  content: '\e645';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-doubt:before {
+  content: '\e646';
+  color: #333;
+  font-size: 24px;
+}
+.touch-icon-tuku:before {
+  content: '\e647';
+  color: #333;
+  font-size: 24px;
+}
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: 'iconfont';
+  color: #949494;
+}

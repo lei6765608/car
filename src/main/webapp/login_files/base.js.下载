@@ -1,0 +1,68 @@
+var myLayer = {
+	alert: function(content,time,callback){
+		if($(".c-alert-box").is(":visible")){
+			$(".c-alert-box").remove();
+		}
+		if(time == undefined || time == "" || time == null){
+			time = 3000;
+		}
+		var ahtml = '<div class="c-alert-box">'+content+'</div><div class="c-al-screen"></div>';
+		$("body").append(ahtml);
+		var aleL = ($(window).width() - $(".c-alert-box").width()) / 2;
+		$(".c-alert-box").css('left', aleL + "px");
+		setTimeout(function(){
+			$(".c-alert-box,.c-al-screen").remove();
+			if (callback){callback();}
+		},time);
+	},
+	load: function(content){
+		if($(".c-load-box").is(":visible")){
+			$(".c-load-box").remove();
+		}
+		if(content == undefined || content == "" || content == null){
+			content = "\u52a0\u8f7d\u4e2d..."
+		}
+		var lhtml = '<div class="c-load-box"><span class="loadgif"></span><p>'+content+'</p></div><div class="c-al-screen"></div>';
+		$("body").append(lhtml);
+		var totW = $(window).width();
+		var aleL = (totW - $(".c-load-box").width()) / 2-32;
+		$(".c-load-box").css('left', aleL + "px");
+	},
+	clear: function(){
+		$(".c-load-box,.c-al-screen").remove();
+	},
+	confirm: function(options){
+		var dft= {
+			title:'',
+			con:'',
+			cancel: null,
+			cancelValue:'\u53d6\u6d88',
+			ok: null,
+			okValue:'\u786e\u5b9a'
+		}
+		var ops = $.extend(dft,options);
+		var chtml = '<div class="c-conf-screen"></div>';
+		chtml += '<div class="c-conf-box">';
+		if(ops.title != ""){
+			chtml += '<div class="conftitle">'+ops.title+'</div>';
+		}
+		chtml += '<div class="confcontent">'+ops.con+'</div>';
+		if(ops.cancel != null){
+			chtml += '<div class="c-confbtn"><a href="javascript:;" class="c-twobtn" id="popcanclebtn">'+ops.cancelValue+'</a><a href="javascript:;" class="c-twobtn" id="popsurebtn">'+ops.okValue+'</a></div>';
+		}else{
+			chtml += '<div class="c-confbtn"><a href="javascript:;" class="c-onebtn" id="popsurebtn">'+ops.okValue+'</a></div>';	
+		}
+		chtml += '</div></div>';
+		$("body").append(chtml);
+		$("#popcanclebtn").on("click", function (event) {
+			if (ops.cancel){ops.cancel();}
+			$(".c-conf-box,.c-conf-screen").remove();
+			event.preventDefault();
+		});
+		$("#popsurebtn").on("click", function (event) {
+			if (ops.ok){ops.ok();}
+			$(".c-conf-box,.c-conf-screen").remove();
+			event.preventDefault();
+		});
+	}
+}

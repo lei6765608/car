@@ -1,0 +1,57 @@
+.footer {
+  font-family: '微软雅黑';
+  color: #ffffff;
+  width: 100%;
+  background-color: #4c4c4c;
+  padding: 25px 0;
+}
+.footer .footer-link {
+  float: left;
+  /*display: inline-block;*/
+  /*position: absolute;*/
+  /*left: 50%;*/
+  /*margin-left: -347px;*/
+}
+.footer .footer-link .a-link {
+  padding-bottom: 14px;
+}
+.footer .footer-link .a-link a {
+  color: #fff;
+  padding-right: 40px;
+  font-size: 14px;
+}
+.footer .footer-link .a-link a:hover {
+  color: #cc072e;
+  text-decoration: none;
+}
+.footer .footer-link .footer-copyright {
+  font-size: 14px;
+  color: #ffffff;
+}
+.footer .footer-link .footer-copyright span {
+  margin-right: 22px;
+}
+.footer .footer-link span {
+  color: #ffffff;
+  font-size: 14px;
+}
+.footer .fr {
+  float: right;
+  color: #95a5a6;
+  overflow: hidden;
+}
+.footer .fr .touch-icons {
+  margin-left: 30px;
+}
+.footer .fr .touch-icons.touch-icon-logo {
+  height: 34px;
+}
+.footer .fr .touch-icons.touch-icon-logo:before {
+  font-size: 69px;
+  height: 34px;
+  line-height: 34px;
+}
+.footer .fr .touch-icons:before {
+  color: #ffffff;
+  font-size: 26px;
+}

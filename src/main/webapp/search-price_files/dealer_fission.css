@@ -1,0 +1,246 @@
+#main {
+  margin: 50px auto 0 auto;
+}
+.page_title {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+.dealer_list {
+  width: 100%;
+  overflow: hidden;
+}
+.dealer_list .list_w {
+  margin-left: -2%;
+  margin-top: 20px;
+  overflow: hidden;
+}
+.dealer_list .list_w li {
+  float: left;
+  width: 48%;
+  height: 210px;
+  background: #fff;
+  margin-left: 2%;
+  margin-top: 2%;
+}
+.sort{
+  height: 66px!important;
+}
+.dealer_list .list_w li .left.first {
+  background: url(../images/dealer_fission/one_big.png) no-repeat 20px 15px;
+}
+.dealer_list .list_w li .left.second {
+  background: url(../images/dealer_fission/second_big.png) no-repeat 20px 15px;
+}
+.dealer_list .list_w li .left.third {
+  background: url(../images/dealer_fission/third_big.png) no-repeat 20px 15px;
+}
+.dealer_list .list_w li .left {
+  width: 58%;
+  height: 100%;
+  float: left;
+}
+.dealer_list .list_w li .left h2 {
+  font-size: 18px;
+  padding: 30px 25px 25px 25px;
+  color: #000;
+}
+.dealer_list .list_w li .left h2 img {
+  width: 15px;
+  height: 21px;
+  margin-left: 5px;
+  margin-top: 2px;
+}
+.dealer_list .list_w li .left .div {
+  font-size: 14px;
+  padding: 0 25px;
+}
+.dealer_list .list_w li .left .div img {
+  display: inline-block;
+  width: 10px;
+  height: 12px;
+  margin-left: 10px;
+  margin-top: 4px;
+}
+.dealer_list .list_w li .left .div div {
+  display: inline-block;
+  padding-right: 15px;
+}
+.dealer_list .list_w li .left .div div span {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-left: 3px;
+}
+.dealer_list .list_w li .left .div div span.red {
+  background: url(../images/star.png);
+}
+.dealer_list .list_w li .left .div div span.gray {
+  background: url(../images/star.png) -68px 0;
+}
+.dealer_list .list_w li .left .div div span.red-gray {
+  background: url(../images/star.png) -83px 0;
+}
+.dealer_list .list_w li .left .div.div_2 {
+  margin-top: 15px;
+}
+.dealer_list .list_w li .left .div.div_400 {
+  margin-top: 15px;
+}
+.dealer_list .list_w li .left .div.div_400 em{
+    font-style: normal;
+    color: #c03;
+    font-weight: bold;
+}
+.dealer_list .list_w li .right {
+  float: left;
+  width: 41.7%;
+  height: 100%;
+  border-left: 1px solid #ececec;
+}
+.dealer_list .list_w li .right .top {
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+  border-bottom: 1px solid #ececec;
+}
+.dealer_list .list_w li .right .top .l_r {
+  float: left;
+  width: 49.6%;
+  height: 100%;
+  text-align: center;
+  font-size: 14px;
+  color: #737373;
+  margin-top: 2px;
+}
+.dealer_list .list_w li .right .top .l_r span {
+  font-size: 24px;
+  color: #000;
+  padding-top: 35px;
+  font-weight: normal;
+  display: block;
+}
+.dealer_list .list_w li .right .top .r {
+  border-left: 1px solid #ececec;
+}
+.dealer_list .list_w li .right .bottom {
+  width: 100%;
+}
+.dealer_list .list_w li .right .bottom .btn:hover {
+  background: #ae002b;
+}
+.dealer_list .list_w li .right .bottom .btn {
+  display: block;
+  width: 150px;
+  height: 40px;
+  vertical-align: top;
+  background: #cc0033;
+  text-align: center;
+  line-height: 40px;
+  font-size: 17px;
+  font-weight: bold;
+  color: #fff;
+  margin: 0 auto;
+  margin-top: 23px;
+}
+.dealer_list .list_w li .right .bottom .btn span.icon-view {
+  background: url(../images/icon-sm.png) 0 -200px no-repeat;
+  width: 18px;
+  height: 15px;
+  display: inline-table;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+@media screen and (max-width: 1024px) {
+  .dealer_list .list_w li {
+    height: 235px;
+  }
+  .dealer_list .list_w li .right .top {
+    height: 130px;
+  }
+  .dealer_list .list_w li .right .bottom .btn {
+    margin-top: 33px;
+  }
+}
+@media screen and (max-width: 850px) {
+  .page_title {
+    font-size: 28px;
+  }
+  .sort-list li {
+    width: 50%;
+  }
+  .sort-list li.cur p {
+    border-right: 1px solid #c4c4c4!important;
+  }
+  .sort-list li#down-type p {
+    border-right: none;
+  }
+  .dealer_list .list_w {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+  .dealer_list .list_w li {
+    height: auto;
+    width: 100%;
+    margin-left: 0;
+    overflow: hidden;
+    margin-top: 20px;
+  }
+  .dealer_list .list_w li .left.first {
+    background: url(../images/dealer_fission/one_big_m.png) no-repeat right 15px;
+  }
+  .dealer_list .list_w li .left.second {
+    background: url(../images/dealer_fission/second_big_m.png) no-repeat right 15px;
+  }
+  .dealer_list .list_w li .left.third {
+    background: url(../images/dealer_fission/third_big_m.png) no-repeat right 15px;
+  }
+  .dealer_list .list_w li .left {
+    float: none;
+    width: auto;
+    height: auto;
+    margin: 0 20px;
+  }
+  .dealer_list .list_w li .left h2 {
+    padding: 25px 0px 20px 0px;
+  }
+  .dealer_list .list_w li .left .div {
+    padding: 0;
+  }
+  .dealer_list .list_w li .left .div.div_2 {
+    padding-bottom: 30px;
+    margin-top: 10px;
+  }
+  .dealer_list .list_w li .right {
+    float: none;
+    width: 100%;
+  }
+  .dealer_list .list_w li .right .top {
+    height: 60px;
+    line-height: 60px;
+    border-top: 1px solid #ececec;
+    border-bottom: none;
+  }
+  .dealer_list .list_w li .right .top .l_r {
+    text-align: center;
+    margin-top: 0;
+  }
+  .dealer_list .list_w li .right .top .l_r span {
+    display: inline-block;
+    padding-top: 0;
+    margin-right: 10px;
+    vertical-align: top;
+  }
+  .dealer_list .list_w li .right .bottom {
+    height: 40px;
+  }
+  .dealer_list .list_w li .right .bottom .btn {
+    margin-top: 0;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 500px) {
+ .sort{
+  height: 35px!important;
+ }
+}

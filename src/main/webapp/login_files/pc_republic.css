@@ -1,0 +1,796 @@
+.m-crumbs {
+  height: 50px;
+  line-height: 50px;
+  padding: 0 5px;
+  font-size: 14px;
+  color: #999999;
+}
+.m-crumbs .touch-icon-position {
+  margin-right: 5px;
+}
+.m-crumbs .touch-icon-position:before {
+  color: #999;
+  font-size: 14px;
+}
+.m-crumbs .cur-local {
+  font-size: 14px;
+  color: #999999;
+  font-family: '微软雅黑';
+}
+.m-crumbs .cur-local a {
+  color: #999999;
+  font-family: '微软雅黑';
+}
+.m-crumbs .cur-local a:hover {
+  color: #666666;
+}
+.m-crumbs .cur-local a.cur {
+  color: #333;
+}
+.m-crumbs .cur-local a.cur:hover {
+  color: #000;
+}
+.m-discount-fav {
+  background-color: #cc072e;
+  color: #ffffff;
+  font-size: 14px;
+  text-align: center;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  padding: 4px 5px 8px 5px;
+  line-height: 18px;
+}
+.page-main {
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  padding: 50px 0;
+  display: inline-block;
+}
+.page-main a {
+  cursor: pointer;
+  padding: 2px 9px;
+  overflow: hidden;
+  margin-right: 5px;
+  color: #666;
+  font-size: 16px;
+}
+.page-main a.cur {
+  color: #ce0028;
+}
+.page-main .etc {
+  margin-right: 5px;
+  color: #666;
+  padding: 0 6px;
+  font-size: 16px;
+}
+.m-ticket {
+  display: block;
+  position: relative;
+  width: 358px;
+  height: 98px;
+  background-image: url(../images/audi_ticket_bg.png);
+  background-position: 0 0;
+  background-repeat: no-repeat;
+}
+.m-ticket .get-ticket {
+  color: #fffefe;
+  padding: 4px 20px;
+}
+.m-ticket .get-ticket .m-money {
+  float: left;
+  font-size: 27px;
+  color: #ffffff;
+  position: relative;
+  padding: 10px 16px 10px 11px;
+}
+.m-ticket .get-ticket .m-money span {
+  font-size: 14px;
+  position: absolute;
+  top: 13px;
+  left: 0;
+}
+.m-ticket .get-ticket .m-explain {
+  float: left;
+}
+.m-ticket .get-ticket .m-explain .text {
+  font-size: 14px;
+  width: 138px;
+  padding: 0 5px;
+}
+.m-ticket .get-ticket .m-explain .time {
+  font-size: 11px;
+  color: #ffffff;
+}
+.m-ticket .get-ticket .now-get {
+  display: block;
+  float: left;
+  font-size: 12px;
+  color: #d8686a;
+  background-color: #fbe8e7;
+  width: 61px;
+  height: 21px;
+  line-height: 21px;
+  text-align: center;
+  border-radius: 11px;
+  position: absolute;
+  right: 26px;
+  top: 29px;
+}
+.m-ticket .ticket-range {
+  font-size: 12px;
+  opacity: .6;
+  color: #ffffff;
+  line-height: 30px;
+  padding: 0 13px;
+}
+.selected-area .m-select {
+  position: relative;
+  float: left;
+  margin-right: 13px;
+}
+.selected-area .m-select:after {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-style: solid;
+  border-color: #333;
+  border-width: 1px 1px 0 0;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+  position: absolute;
+  right: 10px;
+  top: 0;
+  margin-top: 11px;
+}
+.selected-area .m-select .price-select {
+  position: relative;
+  width: 168px;
+  margin: 0 auto;
+  height: 34px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  min-width: 70px;
+  cursor: pointer;
+  line-height: 34px;
+  padding-left: 16px;
+  padding-right: 15px;
+  font-size: 14px;
+  color: #333333;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.selected-area .m-select .price-select .trigger {
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  font-size: 0;
+  line-height: 0;
+  border-color: #999 transparent transparent transparent;
+  border-style: solid dashed dashed dashed;
+  border-width: 4px;
+  position: absolute;
+  top: 18px;
+  right: 9px;
+}
+.selected-area .m-select .hcd_main_border {
+  display: none;
+  border: 1px solid #ccc;
+  background-color: #ffffff;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  min-height: 130px;
+  position: absolute;
+  border-top: none;
+  width: 191px;
+  left: 0;
+  top: 35px;
+  z-index: 99;
+}
+.selected-area .m-select .hcd_main_border.num-list {
+  width: 86px;
+  left: 0;
+  top: 40px;
+  height: 177px;
+}
+.selected-area .m-select .hcd_main_border.num-list .hcd_dataList {
+  height: 177px;
+}
+.selected-area .m-select .hcd_main_border .hcd_dataList {
+  min-height: 186px;
+  height: 186px;
+  width: 100%;
+  display: inline-block;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.selected-area .m-select .hcd_main_border .hcd_dataList ul li {
+  list-style-type: none;
+  cursor: pointer;
+  height: auto;
+  line-height: 40px;
+}
+.selected-area .m-select .hcd_main_border .hcd_dataList ul li > a {
+  display: block;
+  font-size: 14px;
+  color: #333333;
+  line-height: 30px;
+  padding: 5px 15px;
+}
+.selected-area .m-select .hcd_main_border .hcd_dataList ul li > a:hover {
+  background-color: #ccc;
+}
+.selected-area {
+  padding: 13px 3px 13px 36px;
+  margin-bottom: 6px;
+  background-color: #ffffff;
+}
+.selected-area .m-left {
+  float: left;
+}
+.selected-area .m-left .page-title {
+  font-size: 20px;
+  color: #333333;
+  line-height: 36px;
+}
+.selected-area .m-right {
+  float: right;
+}
+.form-inline .form-group {
+  display: block;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+.form-inline .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  display: inline-block;
+  max-width: 100%;
+  font-weight: bold;
+}
+.form-inline .form-control {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+  height: 36px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+}
+.activity-container {
+  padding: 22px 0;
+  border-bottom: 1px dashed #ccc;
+}
+.activity-container .act-photo {
+  margin-right: 24px;
+  float: left;
+  width: 350px;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+.activity-container .act-photo img {
+  display: block;
+  width: 100%;
+  border-radius: 3px;
+}
+.activity-container .act-photo .act-img-cont {
+  display: block;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 14px;
+  padding: 8px 0;
+}
+.activity-container .act-photo .act-img-cont:after {
+  content: '';
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-style: solid;
+  border-color: #fff;
+  border-width: 1px 1px 0 0;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  margin-top: -4.5px;
+}
+.activity-container .act-photo .act-img-cont p {
+  height: 22px;
+  line-height: 22px;
+  padding: 0 17px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.activity-container .act-photo .act-img-cont a p {
+  color: #fff;
+}
+.activity-container .act-cont {
+  width: 769px;
+  float: left;
+}
+.activity-container .act-cont.w100 {
+  width: 100%;
+}
+.activity-container .act-cont .m-title {
+  font-size: 18px;
+  color: #000000;
+  font-weight: 700;
+}
+.activity-container .act-cont .m-title .text {
+  float: left;
+  line-height: 32px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 85%;
+}
+.activity-container .act-cont .m-title .m-tags {
+  float: left;
+  font-size: 12px;
+  color: #ffffff;
+  background-color: #cf032b;
+  line-height: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 4px;
+  font-weight: normal;
+  margin: 7px 10px;
+}
+.activity-container .act-cont .sub-title {
+  font-size: 14px;
+  color: #999999;
+  line-height: 28px;
+}
+.activity-container .act-cont .m-text {
+  font-size: 14px;
+  color: #333333;
+  line-height: 26px;
+}
+.activity-container .act-cont .m-time {
+  font-size: 14px;
+  color: #999999;
+  line-height: 29px;
+}
+.activity-container .act-cont .see-detail {
+  display: block;
+  font-size: 14px;
+  color: #000000;
+  padding-top: 8px;
+}
+.activity-container .act-cont .see-detail .touch-icon-more {
+  margin-right: 4px;
+}
+.activity-container .act-cont .see-detail .touch-icon-more:before {
+  font-size: 13px;
+  color: #cf032b;
+  margin-right: 5px;
+}
+.maintain-top {
+  padding: 0 28px;
+  border-bottom: 3px solid #f0f0f0;
+}
+.maintain-top .m-title {
+  font-size: 16px;
+  color: #333333;
+  height: 50px;
+  line-height: 50px;
+  margin-top: 7px;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.screen-area {
+  background-color: #f0f0f0;
+  padding: 12px 0;
+}
+.screen-area .selected-area .m-select .hcd_main_border {
+  width: 126px;
+  border: 1px solid #7b9dd4;
+}
+.screen-area .selected-area .m-select .hcd_main_border .hcd_dataList ul li > a {
+  display: block;
+  font-size: 14px;
+  color: #000;
+  padding: 0 10px;
+  height: 40px;
+  line-height: 40px;
+}
+.screen-area .selected-area .m-select .hcd_main_border .hcd_dataList ul li > a:hover {
+  background-color: #1e90ff;
+  color: #ffffff;
+}
+.screen-area .m-left {
+  padding-left: 15px;
+}
+.screen-area .m-text {
+  font-size: 14px;
+  color: #333333;
+  line-height: 36px;
+  margin-right: 10px;
+}
+.screen-area .data-pick {
+  position: relative;
+}
+.screen-area .data-pick .trigger {
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  font-size: 0;
+  line-height: 0;
+  border-color: #999 transparent transparent transparent;
+  border-style: solid dashed dashed dashed;
+  border-width: 4px;
+  position: absolute;
+  top: 18px;
+  right: 18px;
+}
+.screen-area .input-data {
+  margin-right: 10px;
+  font-size: 14px;
+  color: #333333;
+  width: 106px;
+  height: 34px;
+  line-height: 34px;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+}
+.screen-area .input-data::-webkit-input-placeholder {
+  color: #333333;
+}
+.screen-area .input-data:-ms-input-placeholder {
+  color: #333333;
+}
+.screen-area .m-right .car-config-check {
+  margin-right: 12px;
+}
+.screen-area .m-right .car-config-check select {
+  display: inline-block;
+  width: 128px;
+  font-size: 14px;
+  outline: 0;
+  vertical-align: middle;
+  height: 36px;
+  padding-left: 8px;
+  padding-right: 15px;
+  line-height: 1.5;
+  color: #333;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  /* --背景色字体颜色--*/
+}
+.screen-area .m-right .car-config-check select option::-ms-expand {
+  display: none;
+}
+.screen-area .m-right .car-config-check select option {
+  -moz-appearance: none;
+  /* Firefox */
+  -webkit-appearance: none;
+  /* Safari 和 Chrome */
+  appearance: none;
+  display: block;
+  font-size: 14px;
+  color: #333333;
+  padding: 5px 15px;
+  background-color: #ffffff;
+}
+.screen-area .m-right .car-config-check select option:hover {
+  color: #333;
+  background-color: #ccc;
+}
+.selected-area {
+  margin-bottom: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+.selected-area .m-select {
+  margin-right: 10px;
+}
+.selected-area .m-select .price-select {
+  width: 103px;
+  background-color: #ffffff;
+}
+.screen-result {
+  font-size: 14px;
+  height: 49px;
+  line-height: 49px;
+}
+.screen-result .m-text,
+.screen-result .check-result {
+  float: left;
+}
+.screen-result .m-text {
+  color: #999999;
+}
+.screen-result .check-result {
+  width: auto;
+  color: #333333;
+  margin-right: 32px;
+}
+.screen-result .check-result span {
+  float: left;
+  display: block;
+  margin-right: 8px;
+}
+.screen-result .check-result span span {
+  margin-right: 0;
+}
+.customer-service {
+  margin-top: -37px;
+}
+.customer-service .m-title {
+  font-size: 26px;
+  color: #000000;
+  line-height: 55px;
+  text-align: center;
+  padding-bottom: 60px;
+}
+.customer-service .m-service {
+  padding-bottom: 55px;
+}
+.customer-service .m-service .m-left,
+.customer-service .m-service .m-right {
+  float: right;
+}
+.customer-service .m-service .m-left {
+  padding-right: 33px;
+  margin-top: 7px;
+  float: left;
+}
+.customer-service .m-service .m-left a {
+  display: block;
+  border: 1px solid #ccc;
+  width: 124px;
+  height: 48px;
+  border-radius: 3px;
+  padding: 0 22px;
+  margin: 14px 0;
+}
+.customer-service .m-service .m-left a:first-child {
+  margin-top: 31px;
+}
+.customer-service .m-service .m-left a:last-child {
+  display: none;
+}
+.customer-service .m-service .m-left a .touch-icons {
+  height: 48px;
+  line-height: 48px;
+  margin-right: 10px;
+}
+.customer-service .m-service .m-left a .touch-icons:before {
+  font-size: 30px;
+  color: #666666;
+}
+.customer-service .m-service .m-left a .online-ask {
+  font-size: 18px;
+  color: #333333;
+  float: left;
+  line-height: 48px;
+}
+.customer-service .m-service .m-right {
+  border-left: 1px solid #ccc;
+  padding-left: 36px;
+}
+.customer-service .m-service .m-right .phone-ask {
+  font-size: 18px;
+  color: #333333;
+}
+.customer-service .m-service .m-right .phone-num {
+  font-size: 36px;
+  color: #ce0028;
+}
+.customer-service .m-service .m-right p {
+  font-size: 16px;
+  color: #999999;
+}
+.share_dialog {
+  width: 455px;
+  margin-top: -24px;
+  background-color: #ffffff;
+}
+.share_dialog .m-title {
+  text-align: center;
+  font-size: 22px;
+  color: #333333;
+}
+.share_dialog .share-list {
+  width: 345px;
+  margin: 47px auto 60px auto;
+  position: relative;
+  z-index: 8;
+}
+.share_dialog .share-list a {
+  position: relative;
+  float: left;
+  width: 68px;
+  height: 1px;
+  background-image: url(../images/share_icon.png);
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  text-align: center;
+  padding-top: 83px;
+  margin-right: 69px;
+  font-size: 16px;
+  color: #333;
+  outline: none;
+}
+.share_dialog .share-list a:last-child {
+  margin-right: 0;
+}
+.share_dialog .share-list a.wechat {
+  background-position: 0 0;
+}
+.share_dialog .share-list a.friends {
+  background-position: -69px 0;
+}
+.share_dialog .share-list a.sina {
+  background-position: -137px 0;
+}
+.left-share .share-tit {
+  font-size: 22px;
+  color: #666;
+  text-align: center;
+  margin: 16px 0 -18px 0;
+}
+.left-share .social-share {
+  bottom: 115px;
+}
+.left-share .social-share .icon-wechat .wechat-qrcode,
+.left-share .social-share .icon-wechatS .wechat-qrcode {
+  top: -54px;
+  left: 77px;
+}
+.left-share .social-share .icon-wechat .wechat-qrcode:after,
+.left-share .social-share .icon-wechatS .wechat-qrcode:after {
+  border-width: 6px;
+  border-color: transparent #fff transparent transparent;
+  left: -3%;
+  margin-left: -6px;
+  bottom: 103px;
+}
+.left-share .social-share a {
+  margin: 0;
+}
+.left-share .collection p {
+  font-size: 22px;
+  color: #666;
+  text-align: center;
+  cursor: pointer;
+}
+.left-share .collection em {
+  display: block;
+  width: 55px;
+  height: 55px;
+  background-image: url(../images/share_icon2.png);
+  background-repeat: no-repeat;
+  background-position: -59px -1px;
+  padding: 0 0 16px 0;
+  margin: 9px auto 0 auto;
+  cursor: pointer;
+}
+.left-share .collection.active em {
+  background-position: -1px -1px;
+}
+.left-share .share-list {
+  width: 80px;
+  margin: 15px auto 10px auto;
+  position: relative;
+  z-index: 8;
+  border-bottom: 1px solid #dbdbdb;
+}
+.left-share .share-list a {
+  position: relative;
+  display: block;
+  width: 50px;
+  height: 50px;
+  background-image: url(../images/share_icon.png);
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  text-align: center;
+  margin: 16px auto;
+  outline: none;
+  background-size: 300% 100%;
+}
+.left-share .share-list a.wechat {
+  background-position: 0 0;
+}
+.left-share .share-list a.friends {
+  background-position: -50px 0;
+}
+.left-share .share-list a.sina {
+  background-position: -100px 0;
+}
+.public_dialogs {
+  width: 600px;
+  margin-top: -31px;
+  background-color: #ffffff;
+}
+.public_dialogs .m-title {
+  text-align: center;
+  font-size: 22px;
+  color: #333333;
+}
+.public_dialogs .m-title.fz18 {
+  font-size: 18px;
+}
+.wechat_pay {
+  width: 377px;
+}
+.wechat_pay .pay-cont {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+.wechat_pay .pay-cont img {
+  width: 148px;
+  margin: 20px auto;
+  display: block;
+}
+.wechat_pay .pay-cont .pay-money {
+  font-size: 18px;
+  color: #333333;
+  padding-bottom: 0;
+}
+.wechat_pay .pay-cont .pay-money span {
+  color: #ce0028;
+}
+.wechat_pay .pay-cont .pay-tips {
+  font-size: 16px;
+  color: #333333;
+}
+.wechat_pay .pay-cont .pay-already {
+  font-size: 22px;
+  color: #ce0028;
+  display: block;
+  border-top: 1px solid #e5e5e5;
+  margin-left: -25px;
+  width: 427px;
+  padding: 25px 0;
+  margin-top: 25px;
+}
+.wechat_pay .pay-cont .pay-done .pay-already {
+  border: none;
+  margin-top: 0;
+  padding: 16px 0;
+}
+.wechat_pay .pay-cont .pay-gray {
+  font-size: 18px;
+  color: #999999;
+  display: block;
+  border-top: 1px solid #e5e5e5;
+  margin-left: -25px;
+  width: 427px;
+  padding-top: 25px;
+  margin-bottom: -20px;
+  padding-bottom: 20px;
+}

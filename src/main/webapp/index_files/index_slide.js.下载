@@ -1,0 +1,44 @@
+function nScroll(wraper, speed, isAuto) {
+    var wraper = $(wraper);
+    var prev = wraper.find('.prev');
+    var next = wraper.find('.next');
+    var img = wraper.find('.m-hot');
+    var imga = wraper.find('.slide-a');
+    var w = img.find('.slide-a').outerWidth(true);
+    var s = speed;
+    next.click(function() {
+        img.animate({
+            'margin-left': -w
+        }, function() {
+            img.find('.slide-a').eq(0).stop(true).appendTo(img);
+            img.css({
+                'margin-left': 0
+            })
+        });
+        flag = "left"
+    });
+    prev.click(function() {
+        img.find('.slide-a:last').stop(true).prependTo(img);
+        img.css({
+            'margin-left': -w
+        });
+        img.animate({
+            'margin-left': 0
+        });
+        flag = "right"
+    });
+    if(imga.length > 4) {
+        if(isAuto == true) {
+            ad = setInterval(function() {
+                flag == "left" ? next.click() : prev.click()
+            }, s * 1000);
+            wraper.hover(function() {
+                clearInterval(ad)
+            }, function() {
+                ad = setInterval(function() {
+                    flag == "left" ? next.click() : prev.click()
+                }, s * 1000)
+            })
+        }
+    }
+};

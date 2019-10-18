@@ -1,0 +1,270 @@
+function inheritProto (child, pa) {
+  var prototype = Object.create(pa.prototype) //创建父类原型的一个副本 等同于使用Object.create(superType.prototype)
+  prototype.constructor = child //为副本添加constructor属性,弥补重写原型而失去的constructor属性
+  child.prototype = prototype; //将创建的对象(副本)赋值给子类的原型
+
+}
+// function object(o){
+//     function F(){}
+//     F.prototype = o;
+//     return new F();
+// }
+var Timzt = (function(){
+  function Timzt(name){
+    this.name = name;
+  }
+  var T_Config = {
+
+  }
+  Timzt.prototype = {
+    _cls:function (cls) {
+      return typeof cls=== 'string'?document.querySelector(cls):cls;
+    },
+    _clsAll:function (_clsAll) {
+      return typeof _clsAll=== 'string'?document.querySelectorAll(_clsAll):_clsAll;
+    },
+    _id:function (id) {
+      return typeof id=== 'string'?document.querySelector(id):id;
+    },
+    _findIndex:function (mts) {
+      var elt= this._id(mts)
+      var index = [].indexOf.call(elt.parentNode.querySelectorAll(elt.tagName),elt);
+      return index
+    },
+    _getByClass:function (oparent,sClass){
+      var aEle=oparent.getElementsByTagName("*");
+      var aResult=[];
+      var i;
+      for(i=0;i<aEle.length;i++){
+        if(aEle[i].classList.contains(sClass) && aEle[i].tagName.toLowerCase() != "body"){
+          aResult.push(aEle[i]);
+        }
+      }
+      return aResult[0];
+    },
+    // makeBefore () {
+    //   console.log('%c '+this.name+' make %c in '+this.age+' ','background:#35495e;color:#fff', 'background:#41b883;color:#fff \n')
+    // },
+    setCollect:function (elPa, elChild, callback) {
+      var _elPa = this._cls(elPa)
+      var _elChild = this._getByClass(_elPa, elChild)
+      _elPa.onclick = function () {
+        if (!_elChild.classList.contains('active') && _elChild.classList.contains(elChild) &&  _elChild.tagName.toLowerCase() != "body") { 
+          callback(true)
+          // _elChild.classList.add('active')
+        } else {
+          callback(false)
+          // _elChild.classList.remove('active')
+        }
+      }
+    },
+    cartsAddMinus:function (add, minus, val) {
+      var _add = this._cls(add)
+      var _minus = this._cls(minus)
+      var _val = this._cls(val)
+      if ( parseInt(_val.value) > 1) {
+        _minusPa.classList.remove('active')
+      }
+      _add.onclick = function() {
+        this.setVal(_add, _val, isAdd = true)
+      }
+      _minus.onclick = function() {
+        this.setVal(minus, _val, isAdd = false)
+      }
+      _val.onchange = function(e) {
+        var _minusPa = this._cls('.btn-price-minus')
+        e.target.value !== 1 ? _minusPa.classList.remove('active') : _minusPa.classList.add('active')
+      }
+    },
+    setVal:function (el, elVal, isAdd) {
+      var _minusPa = this._cls('.btn-price-minus')
+      var iValue = parseInt(elVal.value)
+      elVal.value = isAdd === true ? iValue + 1 : iValue - 1
+      parseInt(elVal.value) !== 1 ? _minusPa.classList.remove('active') : _minusPa.classList.add('active')
+    },
+    detalChange:function (el, showEl) {
+      var _this = this
+      var _el = this._clsAll(el)
+      var _showEl = this._clsAll(showEl)
+      for(let i = 0; i < _el.length; i++) {
+        _el[i].index = i;
+        _el[i].onclick = function () {
+          if(this.className === 'slideUl') {
+            _this._id('#slideMove').style.left = 30 + 153 * i + 'px' // 不兼容es6 就把i 换成 this.index
+            this.classList.add('active')
+            for(var j = 0; j < _el.length; j++) {
+              _el[j].classList.remove('active')
+              _showEl[j].style.display = 'none';
+            }
+          } else {
+            this.classList.add('active');
+          }
+          this.classList.add('active');
+          _showEl[this.index].style.display = 'block';    
+        }
+      }
+    },
+    setStars:function (num) {
+      var allStars = 5
+      var starWidth = num * 15 + 'px'
+      return starWidth
+    },
+    adviceLookBigImg:function (el, showEl, fadeEl, imgBox, mClose) {
+      var _this = this
+      var _el = this._clsAll(el)
+      var _showEl = this._cls(showEl)
+      var _fadeEl = this._cls(fadeEl)
+      var _imgBox = this._cls(imgBox)
+      var _mClose = this._cls(mClose)
+      for(let i = 0; i < _el.length; i++) {
+        _el[i].index = i;
+        _el[i].onclick = function () {
+          var imgSrc = this.children[0].src
+          _imgBox.setAttribute('src', imgSrc)
+          _showEl.classList.add('active')
+          _fadeEl.classList.add('active')
+        }
+      }
+      _mClose.onclick = function () {
+        _showEl.classList.remove('active')
+        _fadeEl.classList.remove('active')
+        _imgBox.setAttribute('src', '')
+      }
+    },
+    infoSelect:function (el, elShow) {
+      var _this = this
+      $(el).hover(function(){
+        $(this).addClass('active')
+        $(elShow).addClass('active')
+      },function(){
+        $(this).removeClass('active')
+        $(elShow).removeClass('active')
+      })
+    },
+    infoLeftNav:function () {
+      if ($('#lanPos').css('top') !== undefined) {
+        if(/msie/.test(navigator.userAgent.toLowerCase()) && $.support.leadingWhitespace){
+          alert('ie')
+           $('#lanPos').css('top',$('.hover').position().top+11);
+           $('.member-left ul li').hover(function(){
+             $('#lanPos').animate({
+                 top:$(this).position().top+11
+             },200)
+          },function(){
+           $('#lanPos').animate({
+             top:$('.hover').position().top+11
+           },200)
+           $('#lanPos').clearQueue()
+         })
+        }else{
+          $('#lanPos').css('top',$('.hover').position().top+11);
+          $('.member-left ul li').hover(function(){
+            $('#lanPos').css('top',$(this).position().top+11);
+          },function(){
+            $('#lanPos').css('top',$('.hover').position().top+11);
+          })
+          $('.member-left ul li').click(function(){
+            for(var i=0;i<$('.member-left ul li').size();i++){
+              if(this==$('.member-left ul li').get(i)){
+               $(this).addClass('active')
+               $('.member-left ul li').eq(i).children('a').addClass('hover');
+              }else{
+                $(this).siblings().removeClass('active')
+                $('.member-left ul li').eq(i).children('a').removeClass('hover');
+              }
+            }            
+          })
+        }
+      }
+    },
+    _getParam: function(obj, param) {
+      return obj[param] || '';
+    },
+    selectFn:function (_this, data, callback) {  // 下拉框 数据 填充。并显示/隐藏
+      var _that = this
+      var $el = _this.siblings('.select-one')
+      $el.find('li').remove()
+      if ($('.select-one').attr('style', 'display') === 'block') {
+        $('.select-one').hide()
+      }
+      var len = data.length
+      for (var i = 0; i < len; i++) {
+        $el.find('ul').append('<li data-val = "'+_that._getParam(data[i],'text')+'">'+_that._getParam(data[i],'text')+'</li>')
+      }
+      if (callback === -1) {
+         _this.siblings('.select-one').hide(100)
+      } else {
+        _this.siblings('.select-one').show(100)
+      }
+    },
+    setAdressDefault:function (pa, btnChild, showEl) {
+      $(pa).on('click', btnChild, function(){
+        $(this).parents(pa).addClass('adress-default').siblings().removeClass('adress-default')
+      })
+    },
+    changeAdress:function (pa, btnChild) {
+      $(pa).on('click', btnChild, function(){
+        $(this).parents(pa).addClass('active').siblings().removeClass('active')
+      })
+    },
+    oldNotNewPass:function (rule, _this, checkThis, txt, txt2) {
+      if (checkThis.val() === '') {
+        $.message({
+          message:txt,
+          type:'warning'
+        });
+      } else if (checkThis.val() !== _this.val()) {
+        $.message({
+          message:txt2,
+          type:'warning'
+        });
+      }
+    },
+    passwordAgain:function (_this, txt, txt2) {
+      if (_this.val() === '') {
+        $.message({
+          message:txt,
+          type:'warning'
+        });
+      } else if (_this.val() === $('#oldPass').val()) {
+        $.message({
+          message:txt2,
+          type:'warning'
+        });
+      }
+    },
+    passwordReg:function (rule, _this, txt, txt2) {
+      if (_this.val() === '') {
+        $.message({
+          message:txt,
+          type:'warning'
+        });
+      } else if (!rule.test(_this.val())) {
+        $.message({
+          message:txt2,
+          type:'warning'
+        });
+      }
+    },
+    mobileReg:function (rule, _this, txt, txt2) {
+      if (_this.val() === '') {
+        $.message({
+          message:txt,
+          type:'warning'
+        });
+      } else if (!rule.test(_this.val())) {
+        $.message({
+          message:txt2,
+          type:'warning'
+        });
+      }
+    }
+  }
+  function Timzt_fn(name, age){
+    Timzt.call(this, name)
+    this.age = age
+  }
+  inheritProto(Timzt_fn, Timzt)
+  var extend = new Timzt_fn("Timzt",25);
+  return extend
+})

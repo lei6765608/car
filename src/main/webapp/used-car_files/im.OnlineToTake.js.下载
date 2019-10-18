@@ -1,0 +1,192 @@
+//入口页面名称
+window["fromPageName"] = "A3 2012款 2.0T 自动 30 TFSI";
+// 入口页面地址
+window["fromPageUrl"] = "";
+
+
+// ip地区（北京）
+window["ipRegion"] = "北京";
+// 地区id（82）
+window["ipnum"] = "82";
+
+// 车系名称
+window["carTypeName"] = "A3";
+// 车系id
+window["carTypeId"] = "8631";
+
+// takeTo
+window["takeTo"] = "";
+// 设备来源
+window["cheilSource"] = "";
+// 提示内容
+window["alertText"] = "";
+// 提示内容
+window["step"] = 0;
+var browser = {
+	versions : function() {
+		var u = navigator.userAgent, app = navigator.appVersion;
+		return {
+			trident : u.indexOf('Trident') > -1, // IE
+			presto : u.indexOf('Presto') > -1, // opera
+			webKit : u.indexOf('AppleWebKit') > -1, // Apple or Chrome
+			gecko : u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, // Firfox
+			mobile : !!u.match(/AppleWebKit.*Mobile/)
+					|| !!u.match(/Windows Phone/) || !!u.match(/Android/)
+					|| !!u.match(/MQQBrowser/), // mobile
+			ios : !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), // ios
+			android : u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, // android
+			iPhone : u.indexOf('iPhone') > -1, // iPhone or QQHD
+			iPad : u.indexOf('iPad') > -1, // iPad
+			webApp : u.indexOf('Safari') == -1
+		};
+	}()
+};
+if (browser.versions.ios || browser.versions.android || browser.versions.iPhone
+		|| browser.versions.iPad) {
+	// window.location.href = "m/online_translation.html"+ location.search;
+	// alert("mobile");
+	cheilSource = "mobile";
+} else {
+	// alert("pc");
+	cheilSource = "pc";
+}
+//alert(cheilSource);
+function onLineTake() {
+	if (takeTo == "") {
+		takeTo = "admin";
+	}
+	var f = true;
+	if (fromPageName == null || fromPageName == "underfind") {
+		// fromPageName = "";
+		f = false;
+	}
+	if (fromPageUrl == null || fromPageUrl == "underfind") {
+		// fromPageUrl = "";
+		f = false;
+	}
+	if (ipRegion == null || ipRegion == "underfind") {
+		// ipRegion = "";
+		f = false;
+	}
+	if (ipnum == null || ipnum == "underfind") {
+		// ipnum = "";
+		f = false;
+	}
+	if (carTypeName == null || carTypeName == "underfind") {
+		// carTypeName = "";
+		f = false;
+	}
+	if (carTypeId == null || carTypeId == "underfind") {
+		// carTypeId = "";
+		f = false;
+	}
+	if (alertText == null || alertText == "underfind") {
+		// alertText = "";
+		f = false;
+	}
+	if (f) {
+		//拼接字符串（userId+loginname+grade+name +memo+timestamp+key ）
+		var info1='100011客服测试15SA3500211556436997live800Key'; //拼接
+		var utf8='100011%e5%ae%a2%e6%9c%8d%e6%b5%8b%e8%af%9515SA3500211556436997live800Key'; // 转编码
+		var toup='100011%E5%AE%A2%E6%9C%8D%E6%B5%8B%E8%AF%9515SA3500211556436997LIVE800KEY'; //转大写
+		var MD5='F146845EBEECC0EFEF08DC85832422CF'
+		var info='userId=100011客服测试15SA3500211556436997live800Key';	
+		var userid='userId=100000011&loginname=客服1测试&grade=5&name=客服测试&timestamp=1556436997&hashCode=F146845EBEECC0EFEF08DC85832422CF';
+		var s='userId%3d100000011%26loginname%3d%e5%ae%a2%e6%9c%8d1%e6%b5%8b%e8%af%95%26grade%3d5%26name%3d%e5%ae%a2%e6%9c%8d%e6%b5%8b%e8%af%95%26timestamp%3d1556436997%26hashCode%3dF146845EBEECC0EFEF08DC85832422CF0';
+		var url="https://care60.live800.com/live800/chatClient/chatbox.jsp?companyID=80002204&configID=1277&info="+s;
+		window.open(url);
+		/*$.ajax({
+			url : path+"/judgeUser",
+			data : "takeTo=" + takeTo + "&fromPageName=" + fromPageName
+					+ "&fromPageNameUrl=" + fromPageUrl + "&ipRegion="
+					+ ipRegion + "&ipnum=" + ipnum + "&carTypeName="
+					+ carTypeName + "&carTypeId=" + carTypeId + "&cheilSource="
+					+ cheilSource + "&alertText=" + alertText,
+			// data:"takeTo=kefuadmin1&fromPageName="+fromPageName+"&fromPageNameUrl="+window.location.href,
+			type : "post",
+			async:false,
+			success : function(res) {
+				var jsonUser = JSON.parse(res);
+				console.log(jsonUser);
+				var url="https://care60.live800.com/live800/chatClient/chatbox.jsp?companyID=audi&configID=32&info=userId%3d100000011%26loginname%3dkevin%26grade%3d5%26name%3d%e5%bc%a0%e4%b8%89%26memo%3dtoken%253dJDyunKEF8810%26timestamp%3d1500517490562%26hashCode%3dB230BAF5CE6229261574A3F6A03BFEFA";
+				if (jsonUser == "openTake") {
+					// alert("当前设备"+cheilSource);	
+//					alert(takeTo);
+					if (cheilSource == "pc") {
+						$.cookie("loginPage",window.location.href,{expires:365});
+//						alert($.cookie('loginPage'));
+						//var newTab = window.open('', 'newwindow');
+						//alert(newTab);
+						newTab.location.href = url;//path+"/init";
+					} else {
+						// var newTab=window.open('','newwindow');
+						// newTab.location.href="initToPhone";
+						$.cookie("loginPage",window.location.href,{expires:365});
+						location.href =url; //path+"/initToPhone";
+					}
+				} else if (jsonUser == "cantFind") {
+//					alert("当前经销商客服未开通，请致电联系。。");
+					
+					$("#publicAlertPopup .ocs h3").html("当前经销商客服未开通，请致电联系。。");
+					shouAlertPopup();
+					
+					return false;
+				} else {
+					// 尚未登录
+					window.open(url);
+					showEasyLoginPage();
+				}
+			}
+		});*/
+	} else {
+		// alert("连接失败，刷新试试。。");
+		return false;
+	}
+}
+// 未读消息提示
+//step = 0;
+count = 0;
+timename = "";
+//alert(document);
+function flash_title() {
+
+	count++;
+	step++;
+	if (step == 3) {
+		if (count <= 4) {
+			step = 1;
+		} else {
+			step = 0;
+			document.title = '【你有新的消息】';
+			return false;
+			}
+	}
+	;
+	if (step == 1) {
+		document.title = '【你有新的消息】';
+	}
+	if (step == 2) {
+		document.title = '【　　　　　　】';
+	}
+	timename = setTimeout("flash_title()", 1000);
+}
+
+function onLineTo400(){
+	/*$.ajax({
+		url : path+"/judgeUser",
+		data : "takeTo=" + takeTo + "&fromPageName=" + fromPageName
+		
+	});*/
+	
+	alert('暂未开通');
+}
+
+$(function(){
+	if (cheilSource == "mobile"){
+		$("#mobOfLine sup").html("");
+		$("#mobOfLine sup").attr("style","display: none;");
+		$("#mobOfLine,.news").click(function(res){
+			onLineTake();
+		});
+	}
+});

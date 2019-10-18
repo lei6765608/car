@@ -1,0 +1,6 @@
+
+//生产环境
+//var cmsurl="http://onlineshopcms.audi.cn";
+//var shopurl="http://onlineshop.audi.cn";
+var cmsurl="http://onlineshopcms.audi.cn";
+var shopurl="https://onlineshop.audi.cn";

@@ -1,0 +1,276 @@
+/*
+ 用户抢单事件
+ */
+var getToTakeDSQ = "";
+var changeTimeDSQ = "";
+var woyaomaiche = "";
+//					地区				车型									地区id
+function startGrab(customerRegion, customerWantCarType, customerWantBuy, customerRegionId, ttype) {
+    //_smq.push(['custom','pc/车辆信息_主视觉','帮我找车','201608160606']);
+
+    $.ajax({
+        url: path + "/judgeUser",
+        data: "takeTo=admin",
+        success: function (res) {
+            var json = JSON.parse(res);
+            if (json == "notlogin") {
+                //未登录
+                showEasyLoginPage();
+            } else {
+
+                var list = new Array();
+                var grabType = true;
+                list.push(shopurl + "/assess_init");
+                list.push(shopurl + "/assess_init#");
+//				list.push(shopurl+"/assess.html");
+//				list.push(shopurl+"/assess.html#");
+                for (i in list) {
+                    if (!isNaN(i)) {
+                        if (list[i] == window.location.href) {
+                            grabType = false;
+                        }
+                    }
+                }
+                if (woyaomaiche == "MM") {
+                    grabType = false;
+                    woyaomaiche = "";
+                }
+                var customerWant='';
+                if (grabType) {
+                    customerWant = "我要买车";
+                }
+                if (ttype == 2) {
+                    customerWant = "我要卖车";
+                } else if (ttype == 3) {
+                    customerWant = "以旧换新";
+                } else if (ttype == 4) {
+                    customerWant = "以旧换旧";
+                } else if (ttype == 5) {
+                    customerWant = "我要找车";
+                }
+
+
+                if (customerRegion == undefined || customerRegion == "") {
+                    customerRegion = getcityforid(customerRegionId);
+                }
+                if (customerWantCarType == undefined) {
+                    customerWantCarType = "";
+                }
+                if (customerWantBuy == undefined) {
+                    customerWantBuy = "";
+                }
+                if (customerRegionId == undefined) {
+                    customerRegionId = "82";
+                }
+	//		alert(customerWantCarType);
+                if (customerWantCarType != "") {
+                    if (customerWantCarType.length > 8) {
+                        customerWantCarType = customerWantCarType.substring(0, 8);
+                    }
+                }
+         //       	alert(customerWantCarType);
+               // alert(path+"2");
+                //alert("customerWant=" + customerWant + "&customerRegion=" + customerRegion + "&customerWantCarType=" + customerWantCarType + "&customerWantBuy=" + customerWantBuy + "&customerRegionId=" + customerRegionId);
+                $.ajax({
+                    url: path + "/addCustomerOrder",
+                    data: "customerWant=" + customerWant + "&customerRegion=" + customerRegion + "&customerWantCarType=" + customerWantCarType + "&customerWantBuy=" + customerWantBuy + "&customerRegionId=" + customerRegionId,
+                    //data: {"customerWant":"111"},
+                    type: "post",
+                    success: function (res) {
+
+                        var json = JSON.parse(res);
+                        if (json.res == "suc") {
+                            getToTakeDSQ = setInterval(getToTake, 1000);
+                            changeTime(20, 1);
+
+                            if ($(".grabAlertTexta").html() != null && $(".grabAlertTexta").html() != undefined) {
+                                $(".grabAlertTexta").html("已将您的需求分配给本地经销商,<br/>等待经销商抢单…<span id='grabAlertTime' class='grabAlertTimea'>20s</span>");
+                            }
+
+                            /*$("#grabAlertText").html("已将您的需求分配给 "+json.serviceNum+"家本地经销商,<br/>等待经销商抢单…<span id='grabAlertTime'>20s</span>");*/
+                            var viewtxt = "点击查看更多本地车源";
+                            var viewhref = path + "/list";
+                            if (ttype != null && ttype != undefined && ttype == 1) {
+
+                                viewtxt = "点击查看本地评估活动";
+                                //viewhref="javascript:closedan()";
+                                var viewhref = path + "/assess.html#catchId";
+                            }
+
+                            $("#grabAlertText").html("已将您的需求分配给本地经销商,<br/>等待经销商抢单…<span id='grabAlertTime' class='grabAlertTimea'>20s</span>");
+                            $("#clitext").html(viewtxt + "<img src='" + path + "/images/single_tip_icon.png'>");
+                            $("#clitext").attr("href", viewhref);
+                            $("#backGroundColor,.popup_ret").attr("style", "display:block;");
+                        }
+                        if (json.res == "notLogin") {
+                            //未登录
+                            showEasyLoginPage();
+                        }
+                    }
+                });
+            }
+        }
+    });
+}
+
+
+//精准评估
+function tostartGrabjin() {
+
+    woyaomaiche = "MM";
+    var customerRegion = $("#city").html();
+    var customerRegionId = $("#sessionCity").val();
+    var customerWantCarType = $("#chexing").find("p").html();
+    var customerWantBuy = $("#nowprice").html() + "万";
+    if (customerRegion == "全国城市" || customerRegion == undefined) {
+        customerRegion = "北京";
+    }
+
+    if (customerRegionId == "" || customerRegionId == undefined) {
+        customerRegionId = "82";
+    }
+    if (customerWantCarType == "" || customerWantCarType == undefined) {
+        customerWantCarType = "无";
+    }
+    if (customerWantBuy == "" || customerWantBuy == undefined) {
+        customerWantBuy = "0";
+    }
+    startGrab(customerRegion, customerWantCarType, customerWantBuy, customerRegionId, 1);
+}
+
+function tostartGrab() {
+    var customerRegion = $("#city").html();
+
+    var customerWantCarType = $("#down-type p .df").html();
+    var customerWantBuy = $("#down-price p .df").html();
+    var customerRegionId = "";
+
+    if (customerRegion == "" || customerRegion == undefined) {
+        customerRegion = $("#currcity").text();
+    }
+
+    if (customerRegion == "全国城市" || customerRegion == undefined) {
+        customerRegion = "北京";
+    }
+    if (customerWantCarType == "不限车系" || customerWantCarType == undefined) {
+        customerWantCarType = "";
+    }
+    if (customerWantBuy == "不限价格" || customerWantBuy == undefined) {
+        customerWantBuy = "";
+    }
+    //alert(customerRegion+""+customerWantCarType+""+customerWantBuy+""+customerRegionId+""+$("#area").attr("citynameid"));
+    if (customerRegionId == "" || customerRegionId == undefined) {
+        var test = window.location.href;
+        if (test.indexOf("ci_ciArea=") > 0) {
+            customerRegionId = test.split("ci_ciArea=")[1].split("&")[0];
+        } else {
+            if (customerRegionId == "" || customerRegionId == undefined) {
+                customerRegionId = $("#area").attr("citynameid");
+            } else {
+                customerRegionId = "82";
+            }
+        }
+    }
+    startGrab(customerRegion, customerWantCarType, customerWantBuy, customerRegionId);
+}
+
+
+//是否有经销商接单
+function getToTake() {
+    $.ajax({
+        url: path + "/getToTake",
+        success: function (res) {
+            var json = JSON.parse(res);
+            if (json.res == "suc") {
+                takeTo = json.val;
+                window.clearTimeout(getToTakeDSQ);
+                window.clearTimeout(changeTimeDSQ);
+                $("#grabAlertText").html("经销商已经成功接单，正在打开对话页面…<span id='grabAlertTime' class='grabAlertTimeb'>3s</span>");
+//				setTimeout(openToTake,1000*3);
+                changeTime(3, 3);
+            }
+        }
+    });
+}
+
+//打开聊天页面
+function openToTake(serviceId) {
+//	alert(serviceId);
+//	takeTo = serviceId;
+    $(".background,.popup_ret").attr("style", "display:none;");
+    onLineTake();
+}
+
+//修改弹框倒计时
+function changeTime(time, type) {
+//	alert($("#grabAlertTime").html());
+
+    if (type == "1") {
+
+        $(".grabAlertTimea").html(time + "s");
+    } else if (type == "2") {
+
+        $(".grabAlertTimeb").html(time + "s");
+    } else {
+        $(".grabAlertTimeb").html(time + "s");
+    }
+//	alert($("#grabAlertTime").html());
+    if (time > 0) {
+        time = time - 1;
+        changeTimeDSQ = setTimeout("changeTime(" + time + "," + type + ")", 1000);
+    } else {
+        if (type == "1") {
+            changeTimeDSQ = setTimeout("changeTime(" + 4 + "," + 2 + ")", 1000);
+            $("#grabAlertText").html("已经派发给优质经销商，经销商接单后会自动联系您…<span id='grabAlertTime' class='grabAlertTimeb'>5s</span>");
+            if ($(".grabAlertTexta").html() != null && $(".grabAlertTexta").html() != undefined) {
+
+                $(".grabAlertTexta").html("已经派发给优质经销商，经销商接单后会自动联系您…<span id='grabAlertTime' class='grabAlertTimeb'>5s</span>");
+                //var viewtxt="点击查看更多本地车源";
+                //var viewhref=path+"/list";
+                //if(ttype!=null&&ttype!=undefined&&ttype==1){
+
+                //	viewtxt="点击查看本地评估活动";
+                //	viewhref=path+"/assess_init#pg";
+                //}
+                //$("#clitext").html(viewtxt+"<img src='images/single_tip_icon.png'>");
+                //$("#clitext").attr("href",viewhref);
+
+            }
+        } else if (type == "2") {
+//			$("#grabAlertText").html("对不起，当前经销商正在忙，无法为您提供帮助<br>"+
+//			"<span id='grabAlertTime'></span>服务不周敬请见谅。");
+            $(".background,.popup_ret").attr("style", "display:none;");
+        }
+        else {
+            openToTake();
+        }
+    }
+}
+
+//打开聊天页面
+function openFileToTake() {
+    window.clearTimeout(changeTimeDSQ);
+    $(".background,.popup_ret").attr("style", "display:none;");
+    takeTo = "sa11003";//等开发正式功能时，放入抢单的经销商ID
+    fromPageName = "奥迪二手车  帮我找车";
+    fromPageUrl = window.location.href;
+
+    onLineTake();
+}
+
+//关闭提示窗口
+$(function () {
+    $(".close").click(function () {
+        window.clearTimeout(changeTimeDSQ);
+//		setTimeout("changeTime("+0+","+2+")",10);
+
+        $(".background,.popup_ret").attr("style", "display:none;");
+    });
+});
+
+function closedan() {
+    //$('.close').click();
+    window.clearTimeout(changeTimeDSQ);
+    $(".background,.popup_ret").attr("style", "display:none;");
+    location.href = path + "/assess.html#catchId";
+}

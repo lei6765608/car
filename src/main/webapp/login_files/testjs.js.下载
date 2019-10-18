@@ -1,0 +1,8 @@
+
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://test-actclct.rityes.com/cres/pvct.js?a=1006&_="+ (new Date()).getTime() ;
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+

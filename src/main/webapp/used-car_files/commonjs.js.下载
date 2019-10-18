@@ -1,0 +1,653 @@
+$(function(){
+	/*var redirectURL= getQueryString("redirectURL")!=null ? getQueryString("redirectURL"):"";
+	if(redirectURL!=""){
+		redirectURL = encodeURIComponent(redirectURL);
+		$("#login").attr("href","sign_in?redirectURL="+redirectURL);
+		
+		$("#register").attr("href","register?redirectURL="+redirectURL);
+	}*/	
+	var db = 0;
+	var ids = getCookie("ids");
+	if(ids!=null && ids!=""){
+		var idx = ids.indexOf(",");
+		if(idx!=-1){
+			var arr = ids.split(",");
+			for(var i=0;i<arr.length;i++){
+				$("#"+arr[i]).addClass("cur");
+			}
+			db = arr.length;
+			$(".fix-right .first-icon .redDot").show().html(db);
+			
+		}else{
+			$("#"+ids).addClass("cur");
+			db=1;
+			$(".fix-right .first-icon .redDot").show().html(db);
+		}
+		
+	}
+	//收藏
+	$(".list-four").delegate(".icon-collection","click",function(){
+		if($(this).hasClass("cur")){
+			//移除收藏
+			var code = $(this).parent().find("a:eq(0)").attr("id");
+			collectionOp("c_deleteCollection",{ci_cCode:code});
+			$(this).removeClass("cur");
+			return false;
+		}else{
+			//添加收藏
+			var code = $(this).parent().find("a:eq(0)").attr("id");
+			collectionOp("c_addCollection",{ci_cCode:code,ci_cType:01});
+			$(this).addClass("cur");
+			var _obj = $(this).parent().parent().find("a>img");
+			var img = _obj.attr("src");
+			var left = _obj.offset().left+(_obj.width()-120)/2;
+			var top = _obj.offset().top-$(window).scrollTop()+(_obj.height()-(_obj.width()/_obj.height()*120));
+			addPt(1,img,left,top,function(){
+				return false;	
+			});
+		}
+		return false;	
+	});
+	//添加对比车辆
+	$(".list-four").delegate(".icon-ratio","click",function(){
+        //console.log("添加对比车辆2")
+		if($(this).hasClass("cur")){
+			$(this).removeClass("cur");
+			var id = $(this).attr("id");
+			var ids = getCookie("ids");
+			var idx = ids.indexOf(",");
+			if(idx!=-1){
+				var arr = ids.split(",");
+				recoverArr(id,arr);
+			}else{
+				delCookie("ids");
+			}
+			if(db > 0){
+                db--;
+				// $(".fix-right .first-icon .redDot").hide();
+                $(".fix-right .first-icon .redDot").show().html(db);
+			}else {
+                $(".fix-right .first-icon .redDot").hide();
+			}
+            // db--;
+            // $(".fix-right .first-icon .redDot").show().html(db);
+            // if(db<=0){
+             //    $(".fix-right .first-icon .redDot").hide();
+            // }
+			return false;
+		}else{
+			var id = $(this).attr("id");
+			var ids = getCookie("ids");
+			//kuqi 添加idarr
+			var idarr=ids.split(",");
+			if(ids!=null && ids!=""){
+				var idx = ids.indexOf(",");
+				if(idx!=-1){
+					var arr = ids.split(",");
+					for(var i=0 ;i<arr.length;i++){
+						if(id!=arr[i]&&arr.length<3){
+							ids = arr[0]+","+arr[1]+","+id;
+							setCookie("ids",ids,"0");
+							saveCarInfoToCookie(id);
+						}
+					}
+				}else{
+					ids+=","+id;
+					setCookie("ids",ids,"0");
+					saveCarInfoToCookie(id);
+				}
+			}else{
+				setCookie("ids",id,"0");
+				saveCarInfoToCookie(id);
+			}
+			
+			if($('.icon-ratio.cur').size()>=3||idarr.length==3 ){
+				/*alert("只能选择3款车对比！");*/
+				return false;	
+			}
+			$(this).addClass("cur");
+			var _obj = $(this).parent().parent().find("a>img");
+			var img = _obj.attr("src");
+			var left = _obj.offset().left+(_obj.width()-120)/2;
+			var top = _obj.offset().top-$(window).scrollTop()+(_obj.height()-(_obj.width()/_obj.height()*120));
+			addPt(0,img,left,top,function(){
+				db++;
+				$(".fix-right .first-icon .redDot").show().html(db);
+			});
+			return false;
+		}
+	});
+	
+	//点击对比
+	$(".first-icon").click(function(){
+        //console.log("点击对比4")
+		var ids = getCookie("ids");
+		if(ids!=null && ids!=""){
+			$(".cp").empty();
+			$(".btn-add").show();
+			var idx = ids.indexOf(",");
+			if(idx!=-1){
+				var arr = ids.split(",");
+				for(var i=0 ;i<arr.length;i++){
+					var carinfohtml = getCookie(arr[i]);
+					if(i==0){
+						$(".cp:first").append(carinfohtml);
+						$(".btn-add:first").hide();
+					}else if(i==1){
+						$(".cp:eq(1)").append(carinfohtml);
+						$(".btn-add:eq(1)").hide();
+					}else{
+						$(".cp:last").append(carinfohtml);
+						$(".btn-add:last").hide();
+					}
+				}
+			}else{
+				$(".item .cp").empty();
+				$(".btn-add:eq(1)").show();
+				$(".btn-add:last").show();
+				var carinfohtml = getCookie(ids);
+				$(".btn-add:first").hide();
+				$(".cp:first").append(carinfohtml);
+			}
+		}else{
+			$(".cp").empty();
+			$(".btn-add").show();
+		}
+		var next = $(".btn-add:visible").size();
+		tip((next));
+		//删除单个车辆信息
+		$(".cst-list").delegate(".closed","click",function(){
+			var id = $(this).parent().attr("id");
+			var ids = getCookie("ids");
+			var idx = ids.indexOf(",");
+			if($(".icon-ratio[id="+id+"]").hasClass("cur")){//对比车辆在当前页，去掉勾
+				$(".icon-ratio[id="+id+"]").removeClass("cur");
+				if(idx!=-1){
+					var arr = ids.split(",");
+					recoverArr(id,arr);
+				}else{
+					delCookie("ids");
+					delCookie(ids);
+				}
+				db--;
+				$(".fix-right .first-icon .redDot").show().html(db);
+				if(db<=0){
+					$(".fix-right .first-icon .redDot").hide();
+				}
+			}else{//不在当前页，直接删cookie
+				if(idx!=-1){
+					var arr = ids.split(",");
+					recoverArr(id,arr);
+				}else{
+					delCookie("ids");
+					delCookie(ids);
+				}
+				
+				//kuqi 添加
+				db--;
+				$(".fix-right .first-icon .redDot").show().html(db);
+				if(db<=0){
+					$(".fix-right .first-icon .redDot").hide();
+				}
+				
+				//kuqi 添加
+				
+			}
+			
+			var idx = $(this).parent().parent().parent().index();//删除索引
+			deleteCookieCar(idx);
+			var nx = $(".btn-add:visible").size();
+			tip(nx);
+			/*if(next==2){
+				$(this).parent().parent().parent().find(".btn-add").show();
+				$(this).parent().parent().empty();
+			}else{
+				var idx = $(this).parent().parent().parent().index();
+				deleteCookieCar(idx);
+			}*/
+		});
+		//对比车辆全部清空
+		$(".btn-empty").click(function(){
+			db=0;
+			$(".fix-right .first-icon .redDot").hide();
+			var ids = getCookie("ids");
+			var idx = ids.indexOf(",");
+			if(idx!=-1){
+				var arr = ids.split(",");
+				for(var i=0;i<arr.length;i++){
+					if($(".icon-ratio[id="+arr[i]+"]").hasClass("cur")){
+						$(".icon-ratio[id="+arr[i]+"]").removeClass("cur");
+					}
+					delCookie(arr[i]);
+				}
+			}else{
+				delCookie(ids);
+			}
+			delCookie("ids");
+			$(".cst-list .cp").empty();
+			$(".cst-list .btn-add").show();
+			contrastBtn(false);
+			tip(3);
+			return false;
+		});
+	});
+	//查找当前用户是否添加当前车辆到收藏
+	var num = [];
+	$(".list-four").delegate(".item","mouseover",function(){
+			var _this = $(this);
+			if(_this.find(".m a:eq(0)").attr("id")!=undefined){
+					if($(".exit").is(":visible")){
+						if(_this.find(".m a:eq(1)").hasClass("cur")){
+							return;
+						}
+						var code = _this.find(".m a:eq(0)").attr("id");
+						if(num.length>0){
+							for(var i=0;i<num.length;i++){
+								if(code==num[i]){
+									return;
+								}
+							}
+						}
+						num.push(code);
+						$.post(path+"/c_findCollection",{ci_cCode:code},function(data){
+							
+							if(data=="true"){
+								_this.find(".m a:eq(1)").addClass("cur");
+							}
+						});
+
+
+					}
+					
+				}
+
+	});	
+	//getcityList();
+    getDealercityList();
+	
+	setarea("area","currcity");
+	
+	$("#allcitylist a").on("click",function(){
+		var citynum = $(this).attr("id");
+		$.post(path+"/changeCity",{cityid:citynum});
+		
+		return false;
+	});
+});
+//字母数组
+var zm=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+function getcityList(){
+	$("#allcitylist").empty();//清空原list
+	for ( var i = 0; i < zm.length; i++) {//循环zm 由于dcitys里的顺序本身就是按照abcd来排序的所以不需要逐个和zm里的ABCD进行比对，只需要按照zm的顺序循环比对即可
+		var num=0;//定义num来判断zm和dcity中的字母是否匹配
+		for ( var j = 0; j < dcitys.length; j++) {
+		 if(j>=0){
+			 var dcity=dcitys[j];//获取每一个dcity对象
+			 var number=dcity[0];//获取id
+			 var name=dcity[1];//获取字母与名称
+			 name=name.split(" "); //分割空格 获取字母与名称的数组
+			 if(zm[i]==name[0]){
+				
+				if(num<1){
+					$("#allcitylist").append("<dl><dt>"+name[0]+"</dt><dd><span><a href='' id='"+number+"' onclick=changecity('"+number+"')>"+name[1]+"</a></span></dd></dl>");
+				}else{
+					$("#allcitylist dl:last dd:last").append("<span><a href='' id='"+number+"' onclick=changecity('"+number+"')>"+name[1]+"</a></span>");	
+					
+				}
+				num=num+1;
+			 	}
+		 	}
+		}
+	}
+}
+
+function getDealercityList(){
+    $(".allcitylist").empty();//清空原list
+    $.ajax({
+        type : "POST",  //提交方式
+        url : path+"/openCities",//路径
+        success : function(result) {//返回数据根据结果进行相应的处理
+            var json = $.parseJSON(result);
+
+            if (json==null||json.msg==null ||json.msg==undefined) {
+
+            } else {
+                var obj=eval(json.msg);
+                for ( var i = 0; i < zm.length; i++) {//循环zm 由于dcitys里的顺序本身就是按照abcd来排序的所以不需要逐个和zm里的ABCD进行比对，只需要按照zm的顺序循环比对即可
+                    var num=0;//定义num来判断zm和dcity中的字母是否匹配
+                    for ( var j = 0; j < obj.length; j++) {
+                        if(j>=0){
+                            var dcity=obj[j];//获取每一个dcity对象
+                            var number=dcity.CID;//获取id
+                            var name=dcity.REMARK;//获取字母与名称
+                            name=name.split(" "); //分割空格 获取字母与名称的数组
+                            if(zm[i]==name[0]){//如果zm与dcity的字母相同则把对应的信息拼接出来，如果没有相同的则dd不显示对应zm里的字母。
+                                if(num<1){
+                                    //$("#allcitylist").append("<dl><dt>"+name[0]+"</dt><dd><span><a href='' id='"+number+"' onclick=changecity('"+number+"')>"+name[1]+"</a></span></dd></dl>");
+                                    $("#allcitylist").append("<dl><dt>"+name[0]+"</dt><dd><span><a href=javascript:showChangeCity('"+number+"','"+name[1]+"')>"+name[1]+"</a></span></dd></dl>");
+                                }else{
+                                    //$("#allcitylist dl:last dd:last").append("<span><a href='' id='"+number+"' onclick=changecity('"+number+"')>"+name[1]+"</a></span>");
+                                    $("#allcitylist dl:last dd:last").append("<span><a href=javascript:showChangeCity('"+number+"','"+name[1]+"')>"+name[1]+"</a></span>");
+
+                                }
+                                num=num+1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+//城市切换
+function changecity(city){
+	var c = getcityforid(city);
+	var down = '&nbsp;<span class="icon-down"></span>';
+	$("#area").html(c+down);
+	
+	$("#currcity").html(c);
+	
+	$("#toggle-city").fadeOut();
+}
+function getcityforid(cid){
+	for ( var j = 0; j < dcitys.length; j++) {
+		 var dcity=dcitys[j];//获取每一个dcity对象
+		 var number=dcity[0];//获取id
+		 if(number==cid){
+			 var name=dcity[1];//获取字母与名称
+			 name=name.split(" "); //分割空格 获取字母与名称的数组
+			 return name[1];
+		 }
+	}
+	return "北京";
+}
+function setarea(idstr,idstr2){
+	var cityname=getcityforid($("#"+idstr).attr("citynameid"));
+//	var cityname=getcityforid($("#"+idstr).text());
+	var down = '&nbsp;<span class="icon-down"></span>';
+	$("#"+idstr).html(cityname+down);
+	$("#"+idstr2).text(cityname);
+}
+function setCookie(objName, objValue, time){//添加cookie 
+    var str = objName + "=" + escape(objValue); 
+    if (time > 0) {//为0时不设定过期时间，浏览器关闭时cookie自动消失 
+        var date = new Date(); 
+        var ms = time * 3600 * 1000; 
+        date.setTime(date.getTime() + ms); 
+        str += "; expires=" + date.toGMTString(); 
+    } 
+    document.cookie = str; 
+} 
+function getCookie(name) {
+	// console.log("获得cookie2")
+	if (document.cookie != null && document.cookie.length > 0) {
+        var arrStr = document.cookie.split("; ");
+        for (var i = 0; i < arrStr.length; i++) {
+            var temp = arrStr[i].split("=");
+            if (temp[0] == name) {
+                return unescape(temp[1]);
+            }
+        }
+    }
+    return "";
+}
+function delCookie(name)
+{
+    var exp = new Date();
+    exp.setTime(exp.getTime() - 1);
+    var cval=getCookie(name);
+    if(cval!=null)
+        document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+}
+function getQueryString(name) { 
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+	var r = window.location.search.substr(1).match(reg); 
+	if (r != null) return unescape(r[2]); return null; 
+} 
+
+//覆盖cookie车辆id
+function recoverArr(id,arr){
+	if(arr.length==2){
+		for(var i = 0; i<arr.length;i++){
+			if(id==arr[i]){
+				if(i==0){
+					arr =[arr[i+1]];
+					setCookie("ids",arr,"0");
+					delCookie(id);
+					//saveCarInfoToCookie(id);
+				}else{
+					arr =[arr[i-1]];
+					setCookie("ids",arr,"0");
+					delCookie(id);
+					//saveCarInfoToCookie(id);
+				}
+				
+			}
+		}
+	}
+	if(arr.length==3){
+		for(var i = 0; i<arr.length;i++){
+			if(id==arr[i]){
+				if(i==0){
+					arr =[arr[i+1],arr[i+2]];
+					setCookie("ids",arr,"0");
+					delCookie(id);
+				}else if(i==1){
+					arr =[arr[i-1],arr[i+1]];
+					setCookie("ids",arr,"0");
+					delCookie(id);
+				}else{
+					arr =[arr[i-2],arr[i-1]];
+					setCookie("ids",arr,"0");
+					delCookie(id);
+				}
+				
+			}
+		}
+	}
+}
+//添加车辆信息到cookie
+function saveCarInfoToCookie(id){
+	var detail = $("#info"+id+" .image a").attr("href");
+	var imgSrc =  $("#info"+id+" .image a img").attr("src");
+	var ctitle =  $("#info"+id+" .info a").attr("title");
+	var h3 =  $("#info"+id+" .info h3").text();
+	var ci =  $("#info"+id+" .info p:first").text();
+	var price =  $("#info"+id+" .info .price").text();
+	var dtitle =  $("#info"+id+" .info #dealerurl a").attr("title");
+	var ac =  $("#info"+id+" .info #acti").text();
+	var carinfo= '<div class="image" id="'+id+'"><a href="javascript:;" class="closed"><span></span></a><a href="'+detail+'"><img src="'+imgSrc+'" /></a></div><div class="info"><a href="" class="b-url" title="'+ctitle+'"></a><h3>'+h3+'</h3><p>'+ci+'</p><p class="price">'+price+'</p><p><a href="" class="s-url" title="'+dtitle+'">'+dtitle+'</a> <span class="icon-gold"></span></p><p>'+ac+'</p></div>';
+	setCookie(id, carinfo, "0");
+}
+//删除车型对比浮层内容
+function deleteCookieCar(idx){
+    //console.log("删掉对比2")
+	if(idx==0){
+		$(".btn-add:eq(0)").show();
+		$(".cp:eq(0)").empty();
+		var txt1 = $(".cp:eq(1)").html();
+		var txt2 = $(".cp:eq(2)").html();
+		if(txt1!=null && txt1!=""){
+			 $(".btn-add:eq(0)").hide();
+			 $(".cp:eq(0)").html(txt1);
+			 $(".cp:eq(1)").empty();
+			 $(".btn-add:eq(1)").show();
+			 if(txt2!=null && txt2!=""){
+				 $(".cp:eq(1)").html(txt2);
+				 $(".btn-add:eq(1)").hide();
+				 $(".cp:eq(2)").empty();
+				 $(".btn-add:eq(2)").show();
+			 }
+		}
+	}else if(idx==1){
+		$(".btn-add:eq(1)").show();
+		$(".cp:eq(1)").empty();
+		var txt2 = $(".cp:eq(2)").html();
+		if(txt2!=null && txt2!=""){
+			 $(".cp:eq(1)").html(txt2);
+			 $(".btn-add:eq(1)").hide();
+			 $(".cp:eq(2)").empty();
+			 $(".btn-add:eq(2)").show();
+		}
+	}else{
+		$(".btn-add:eq(2)").show();
+		$(".cp:eq(2)").empty();
+	}
+	/*for(var i=idx;i<=2;i++){
+		$(".btn-add:eq("+i+")").show();
+		$(".cp:eq("+i+")").empty();
+		if(i!=2){
+			$(".btn-add:eq("+(i+1)+")").show();
+			var txt = $(".cp:eq("+(i+1)+")").html();
+			if(txt!=null && txt!=""){
+				$(".btn-add:eq("+i+")").hide();
+				$(".cp:eq("+(i+1)+")").empty();
+				$(".cp:eq("+i+")").html(txt);
+			}
+		}
+		
+	}*/
+}
+//显示提示信息
+function tip(next){
+	if(next==0){
+		$(".tip").hide();
+		contrastBtn(true);
+	}else if(next==1){
+		$(".tip").hide();
+		contrastBtn(true);
+	}else if(next==2){
+		$(".tip").show();
+		contrastBtn(false);
+	}else{
+		$(".tip").show();
+		contrastBtn(false);
+	}
+}
+//对比按钮
+function  contrastBtn(boolean){
+    //console.log("点击对比2")
+	var url = $(".btn-db").attr("href");
+	var ids = getCookie("ids");
+	var index = url.indexOf("ids");
+	if(!boolean){
+		if(index!=-1){
+			var oldIds = url.substring(index+4);
+			var newurl = url.replace(url.substring(index-1,index+4+(oldIds.length)),"");
+			$(".btn-db").attr("href",newurl);
+		}
+		//$(".btn-db").attr("disable",true);
+		$(".btn-db").bind("click",function (event) { 
+			return boolean;
+		}); 
+	}else{
+		//$(".btn-db").removeAttr("disable");
+		
+		
+		if(index!=-1){
+			var oldIds = url.substring(index+4);
+			var newurl = url.replace(url.substring(index+4,index+4+(oldIds.length)),ids);
+			$(".btn-db").attr("href",newurl);
+		}else{
+			var newurl = url + ("?ids="+ids);
+			$(".btn-db").attr("href",newurl);
+		}
+		$(".btn-db").off('click').click(function (event) { 
+			//$(".contrast-box a:eq(0)").click();
+			return boolean;
+		}); 
+		
+	}
+}
+
+//增删收藏
+function collectionOp(url,param){
+	$.post(path+"/"+url,param);
+}
+
+function getUrl(){
+	return window.location.pathname;
+}
+
+function getRedirectURL(){
+	var path = window.location.href;
+	return encodeURIComponent(path);
+}
+
+//字符串反转
+function reverseString(strString) {
+    return strString.split("").reverse().join("");
+}
+
+//格式化金钱
+function formatMoney(inputMoney,defaultWhenIsNaN) {
+    // console.log(inputMoney);
+    //金钱小于1000没必要格式化
+    var moneyFlag = (inputMoney + "").substr(0,1);
+    if(moneyFlag !== '$' && moneyFlag !== '￥') {
+        moneyFlag = '';
+    }
+    var money = (inputMoney+"").replace(/[$￥\s,]/g,"");
+    if(!isNaN(money) && Number(money) < 1000) {
+        return moneyFlag + "" + inputMoney;
+    }
+    //格式化处理
+	var result = "";
+    if(!isNaN(money) && money.length > 0) {//是数字
+        var arrPrice = money.split(".");
+        var intArrayPrice = arrPrice[0].split("");
+        for(var i = intArrayPrice.length-3; i> 0; i = i-3) {
+            intArrayPrice.splice(i, 0, ",");
+        }
+        result = intArrayPrice.join("");//整数部分
+        if(arrPrice.length > 1 ){
+            result += "." + arrPrice[1];//小数部分
+        }
+    } else {//格式化失败：返回默认值或者原值
+        result = defaultWhenIsNaN ? defaultWhenIsNaN : inputMoney;
+    }
+    // console.log(result);
+    return moneyFlag + "" + result;
+}
+
+//因此手机中间4位
+function formatPhone(phone) {
+    // console.log("formatPhone  "+phone);
+	if(phone.length >= 11) {
+		return phone.substr(0,3) + "*****" + phone.substring(8);
+	} else {
+		return phone;
+	}
+}
+
+function formatDateInChinese(srcDate) {
+    // console.log(srcDate);
+    if (srcDate && srcDate.length >= 19){
+        srcDate = srcDate.replace("T", " ");
+        var arrDate = srcDate.split("");
+        arrDate.splice(4,1,"年");
+        arrDate.splice(7,1,"月");
+        arrDate.splice(10,0,"日");
+        return arrDate.join("");
+    } else {
+        return srcDate;
+    }
+}
+
+Date.prototype.Format = function (fmt) { //author: meizz
+    var o = {
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
+        "h+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds() //毫秒
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o){
+        if (new RegExp("(" + k + ")").test(fmt))fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    }
+    return fmt;
+};

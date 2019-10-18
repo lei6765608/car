@@ -1,0 +1,352 @@
+﻿$(function(){
+    var redirectURL=$("#redirectURL").val();
+    /* var rememberPwd =isRememPwd();//0未选择 1选择
+     $(".l_btn").click(function() {
+     $(this).toggleClass("active");
+     //rememberPwd = isRememPwd();
+     });*/
+    // var nameflag= false;
+    // var passflag = false;
+    $(".account input[name='valid_name']").blur(function(){
+        $("#valid_tip").hide();
+        var username = $.trim($(this).val());
+        if(username==null || username == ""){
+            $("#valid_name").show();
+        }else{
+            $("#valid_name").hide();
+        }if(checkPhone()){
+            $("#valid_name").hide();
+        }else{
+            $("#valid_name").show();
+        }
+    });
+    $(".account input[name='valid_code']").blur(function(){
+        $("#valid_tip").hide();
+        var password = $(this).val();;
+        if(password==null || password == ""){
+            $("#valid_code").show();
+        }else{
+            $("#valid_code").hide();
+        }
+    });
+    //登录
+    $(".land").click(function(){
+        $("#valid_tip").hide();
+        $('.land').attr("readonly", true);
+        if (!nameBlur() || !passBlur()) {
+            $('.land').attr("readonly", false);
+            return false;
+        }
+        var phone = $(".account input[type='text']").val();
+        var validCode = $(".account input[name='valid_code']").val();
+        var identifyCode =$('#identifyCode').val();
+        var codeid = $('#getCode').attr("codeid");
+
+        $.post(path + "/login", {mobile: phone, validCode: validCode, redirectURL: redirectURL,identifyCode:identifyCode,codeid:codeid}, function (data) {
+            var msg = "";
+            if ("0" == data) {
+                $("#valid_code").hide();
+                var redirecturl = "";
+                if (document.getElementById("redirectURL") != null) {
+                    redirecturl = document.getElementById("redirectURL").value;
+                }
+                if (redirecturl != null && redirecturl != "") {
+                    window.location.href = redirecturl;
+                } else {
+                    window.location.reload();
+                }
+
+            } else if ("1" == data) {
+                $("#valid_code").show();
+                $('.land').attr("readonly", false);
+                return;
+            } else if ("2" == data) {
+                $("#valid_tip").html("").append('<span  id="erroMessge" class="spanMeg">*</span>' + "登录超时").show();
+                $('.land').attr("readonly", false);
+                return;
+            }else if ("3" == data) {
+                $("#valid_tip").html("").append('<span  id="erroMessge" class="spanMeg">*</span>' + "图形验证码错误").show();
+                $('.land').attr("readonly", false);
+                return;
+            }
+        });
+    });
+
+    $(".popup .close").click(function(){
+        window.location.href = data.redirectURL;
+    });
+
+    //初始化验证码
+    coderandom();
+});
+
+//验证码
+function coderandom(){
+    $.ajax({
+        url: path + "/genCode",
+        async: false,
+        dataType: 'json',
+        success: function (data) {
+            if(data.success==true) {
+                $("#getCode").attr("codeid", data.codeid);
+                $("#identifyCodeImg").attr("src", path + "/buliImgCode?codeid=" + data.codeid);
+            }
+        }
+    });
+}
+
+function nameBlur(){
+    var name = $(".account input[type='text']").val();
+    if(name==null || name ==""){
+        $("#valid_name").show();
+        return false;
+    }
+    if(!checkPhone()){
+        return false;
+    }
+    return true;
+}
+function passBlur(){
+    var pass = $(".account input[name='valid_code']").val();
+    if(pass==null || pass ==""){
+        $("#valid_code").show();
+        return false;
+    }
+    return true;
+}
+function isRememPwd(){
+    if($(".choice a:eq(0)").hasClass("active")){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+
+var OEMP = OEMP || {};
+/** 系统常量 */
+OEMP.Contants = {
+    CSRF_HEADER : 'frcs',
+    CSRF_COOKIE : '__frcs',
+    //APPID : '24F54E1EC2EA8294E050007F01006333',//正式
+    //APPID : '394C59ACD040E273E050A8C083055F72',//测试
+    //APPID : '49A4D1C880826302E0506ACA24C73DF7',//奥美提供的最新版测试环境APPID
+    APPID : '3FC19968226593D9E050A8C083051A58',	//奥美提供的最新版正式环境APPID
+    //APPID : '3DA0837904747E1FE0506ACA24C720ED',
+    //APPID : '25D6830E5F763182E050007F01004B70',//金融资质评估
+    //APPID : '25D697F0525C976AE050007F01004C01',//人才招聘
+    //APPID : '122CDA8965EB8BC0E050007F01001371', //测试环境
+    URL_SSO:'http://sso.audi.cn',					//奥美提供的最新版正式环境单点系统地址
+    //URL_SSO:'http://audisso.onestaging.com',			//奥美提供的最新版测试环境单点系统地址
+    URL_LOGIN : 'http://sso.audi.cn/login.html',
+    //URL_LOGIN_RESUME : 'http://audisso.onestaging.com/login_resume.html',
+    URL_LOGIN_RESUME : 'http://sso.audi.cn/login_resume.html',//招聘正式登陆
+    //URL_LOGIN_RESUME_EN : 'http://audisso.onestaging.com/login_resume-en.html',
+    URL_LOGIN_RESUME_EN : 'http://sso.audi.cn/login_resume-en.html',//招聘正式登陆英文
+    //URL_REG : 'http://audisso.onestaging.com/reg.html',
+    URL_REG : 'http://sso.audi.cn/reg.html',//正式注册
+    //URL_REG_RESUME : 'http://audisso.onestaging.com/reg_resume.html',
+    URL_REG_RESUME : 'http://sso.audi.cn/reg_resume.html',//招聘正式注册
+    //URL_REG_RESUME_EN : 'http://audisso.onestaging.com/reg_resume-en.html',
+    URL_REG_RESUME_EN : 'http://sso.audi.cn/reg_resume-en.html',//招聘正式注册英文
+    URL_QQ_LOGIN : 'http://sso.audi.cn/qqLogin.htm',
+
+    URL_HOME_PAGE : 'http://contact.audi.cn/user-center.html',
+    URL_HOME:'http://contact.audi.cn/index.html',
+    URL_USDECAR:'http://usedcar.audi.cn',
+    URL_ENCLOSURE:'http://accessories.audi.cn',
+    URL_BOUTIQUE:'http://collection.audi.cn'
+};
+var audiUserInfo = "";
+
+function getUserInfo(){
+    return audiUserInfo;
+}
+function toQQlogin(type,uids) {
+    var ReturnUrl = "http://onlineshop.audi.cn/bindlogin";			//生产环境
+    //var ReturnUrl = "http://60.205.230.31/audi4s_front/bindlogin";	//测试环境
+    ReturnUrl = encodeURIComponent(ReturnUrl);
+    var uid = getUserInfo().os_osId?getUserInfo().os_osId:"";
+    if(uid==null||uid==undefined||uid==""){
+        if(uids!=null&&uids!=undefined&&uids!=""){
+            uid=uids;
+        }
+    }
+
+    window.location.href=OEMP.Contants.URL_SSO+'/qqlogin.html?ReturnUrl='+ReturnUrl+'&appid='+OEMP.Contants.APPID+'&type='+type+'&uid='+uid;
+}
+
+
+function toWeibologin(type,uids){
+    var ReturnUrl ="http://onlineshop.audi.cn/bindlogin";				//生产环境
+    //var ReturnUrl = "http://60.205.230.31/audi4s_front/bindlogin";		//测试环境
+    ReturnUrl = encodeURIComponent(ReturnUrl);
+    var uid = getUserInfo().os_osId?getUserInfo().os_osId:"";
+    if(uid==null||uid==undefined||uid==""){
+        if(uids!=null&&uids!=undefined&&uids!=""){
+            uid=uids;
+        }
+    }
+    //alert(ReturnUrl);
+    window.location.href=OEMP.Contants.URL_SSO+'/weibologin.html?ReturnUrl='+ReturnUrl+'&appid='+OEMP.Contants.APPID+'&type='+type+'&uid='+uid;
+}
+
+
+function qxbns(type,uids){
+
+    $.ajax({
+        type:'POST',
+        url:"qxbind",
+        data:{'bindType':type,'uid':uids},
+        success:function(data){
+            eval("data=("+data+")");
+            if(data.success){
+                $("#h3").text("已成功取消绑定");
+                delayClose();
+                if(s!=null&&s!=undefined&&s<=0){
+                    location.reload();
+                }
+            }else{
+                $("#h3").text("已成功取消绑定");
+                delayClose();
+                if(s!=null&&s!=undefined&&s<=0){
+                    location.reload();
+                }
+            }
+
+
+        },
+        error:function(e){
+            alert(e);
+        }
+    });
+
+}
+
+document.onkeydown=function(event){
+    var e = event || window.event || arguments.callee.caller.arguments[0];
+
+    if(e && e.keyCode==13){ // enter 键
+        $(".land").click();
+    }
+};
+
+var clock = '';
+var nums = 60;
+var btn;
+function sendCode(thisBtn) {
+    $("#valid_code").hide();
+    btn = thisBtn;
+    btn.disabled = true; //将按钮置为不可点击
+    btn.value = '重新获取 ' + nums;
+    clock = setInterval(doLoop, 1000); //一秒执行一次
+}
+
+function doLoop() {
+    nums--;
+    if (nums > 0) {
+        btn.value = '重新获取 ' + nums;
+    } else {
+        clearInterval(clock); //清除js定时器
+        btn.disabled = false;
+        btn.value = '获取验证码';
+        nums = 60; //重置时间
+        coderandom();   //计时完毕后，重新刷新验证码
+    }
+}
+
+function checkPhone() {
+    var phone =  $('[name="valid_name"]').val();
+    //if (!(/^1[345678]\d{9}$/.test(phone))) {
+      //  return false;
+    //}
+    return true;
+}
+
+function  sendPcCode(thisBtn){
+    if(checkPhone()){
+        var phone = $('[name="valid_name"]').val();
+        var identifyCode = $('#identifyCode').val();
+        var codeid = $(thisBtn).attr("codeid")
+        if(identifyCode != "") {
+            $.ajax({
+                url: path + "/sendAccountMsg",
+                async: false,
+                data: {mobile: phone, identifyCode: identifyCode, codeid: $(thisBtn).attr("codeid")},
+                success: function (data) {
+                    var msg = "";
+                    if (data == "0") {
+                        sendCode(thisBtn);  //设置计时器倒数
+                        $("#erroMessge").remove();
+                        $("#valid_tip").hide();
+                        $("#promptImgCode").hide();
+                        $("#tab1 .phone").hide();
+                    } else if (data == "2") {
+                        msg = "验证码发送次数已超过上限";
+                        $("#valid_code").html("").append("<span  id='errosMessge' class='spanMeg'>*</span>" + msg).show();
+                        coderandom();
+                    } else if (data == "3") {
+                        $("#promptImgCode").show();
+                        coderandom();
+                    }
+                    else {
+                        msg = "短信验证码错误或已失效";
+                        $("#valid_code").html("").append("<span  id='errosMessge' class='spanMeg'>*</span>" + msg).show();
+                        coderandom();
+                    }
+                }
+            });
+        } else {
+            $("#promptImgCode").show();
+        }
+    } else {
+        $('#valid_name').show();
+    }
+}
+
+/*$("#input_z").keyup(function () {
+    var code = $("[name='valid_code']").val();
+    var phone =  $('[name="valid_name"]').val();
+    if (code.length < 6) {
+        return;
+    } else {
+        $.post("validSendVerifyCode", {validCode: code,mobile: phone}, function (data) {
+            if (data == "0") {
+                $("#erroMessge").remove();
+                $("#valid_tip").hide();
+                $("#tab1 .phone").hide();
+            }
+            else {
+                var msg = "短信验证码错误或已失效";
+                $("#valid_code").html("").append("<span  id='errosMessge' class='spanMeg'>*</span>"+msg).show();
+            }
+        });
+    }
+});*/
+
+function  checkIdentifyCodes(){
+    var imgCode = false;
+    var  identifyCode =$('#identifyCode').val();
+    $.ajax({
+        url: path + "/checkIdentifyCodes",
+        async: false,
+        data: {identifyCode:identifyCode},
+        success: function (data) {
+            if('true'==data){
+                imgCode = true;
+            }else{
+                imgCode = false;
+            }
+        }
+    });
+    return imgCode;
+}
+
+//刷新验证码
+function  refreshImgCode(){
+    coderandom();
+}
+
+function hideImgCodePrompt(tag){
+    $("#" + tag).hide();
+}

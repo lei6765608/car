@@ -1,0 +1,371 @@
+$(function(){
+	//从cookie中取城市名称显示出来
+	var cityId= $.cookie('city');
+	var sessionCityId = $("#sessionCityId").val();
+	var cityName = decodeURI($.cookie('cityname'));
+	if(cityName==null || cityName== "null"){
+		cityName="";
+    }
+    $("#area").html(cityName);
+    if (isInvalidStringValue(cityId) || isInvalidStringValue(sessionCityId)) {
+        $.ajax({
+            url: path + "/headerLocate?cityid=" + cityId,
+            success:function(res){
+                var resultJson = $.parseJSON(res);
+                if(resultJson.result == "success"){//定位成功
+                    console.log("header定位成功");
+                    cityName = decodeURI($.cookie('cityname'));
+                    $("#area").html(cityName);
+                }else{
+                    console.log("header定位失败");
+                }
+            }
+        });
+    }
+
+    var url = getUrl();
+	var url_path = window.location.pathname ;
+	//登陆注册前保存当前地址
+	if(getQueryString("redirectURL")==null){
+		if(url.indexOf("sign_in")==-1 && url.indexOf("register")==-1 &&  url.indexOf("logout")==-1){	//登录注册页面
+			var paths = window.location.href;
+			$(".tools #userlogin,.mobile-menu-box #userlogin").attr("href",path+"/sign_in?redirectURL="+encodeURIComponent(paths));
+			$(".mobile-menu-box #userlogin").attr("href",path+"/sign_in?redirectURL="+encodeURIComponent(paths));
+			$(".tools #userregister,.mobile-menu-box #userregister").attr("href",path+"/register?redirectURL="+encodeURIComponent(paths));
+		}
+	}else{
+		$(".tools #userlogin,.mobile-menu-box #userlogin").attr("href",path+"/sign_in?redirectURL="+encodeURIComponent(getQueryString("redirectURL")));
+		$(".tools #userregister,.mobile-menu-box #userregister").attr("href",path+"/register?redirectURL="+encodeURIComponent(getQueryString("redirectURL")));
+		$(".t_r #login").attr("href",path+"/sign_in?redirectURL="+encodeURIComponent(getQueryString("redirectURL")));
+		$(".page_title #register").attr("href",path+"/register?redirectURL="+encodeURIComponent(getQueryString("redirectURL")));
+		$(".the_right #m_register").attr("href",path+"/register?redirectURL="+encodeURIComponent(getQueryString("redirectURL")));
+	}
+//	alert(path+url.indexOf("/index"));
+/*	alert(path+)*/
+	/*alert(url.indexOf("/buy") );
+	alert()*/
+	
+	if(url_path.indexOf("/index")!=-1){
+		$(".navbar li:eq(0)").addClass("cur");
+	}else if(url.indexOf("/buy")!=-1 || url.indexOf("/Caractivity")!=-1||url.indexOf("/list")!=-1){
+		$(".navbar li:eq(0)").removeClass("cur");
+		$(".navbar li:eq(1)").addClass("cur");
+	}else if(url.indexOf("/replacement_list")!=-1||url.indexOf("/replacement")!=-1){
+		$(".navbar li:eq(0)").removeClass("cur");
+		$(".navbar li:eq(2)").addClass("cur");
+	}else if(url.indexOf("/assess_init")!=-1||url.indexOf("/assess")!=-1){
+		$(".navbar li:eq(0)").removeClass("cur");
+		$(".navbar li:eq(3)").addClass("cur");
+	}else if(url.indexOf("/used_car")!=-1){
+		$(".navbar li:eq(0)").removeClass("cur");
+		$(".navbar li:eq(4)").addClass("cur");
+	}else if(url_path=="/audi4s_front/" || url_path=="/" || url_path==""){
+		$(".navbar li:eq(0)").addClass("cur");
+	}else if(url.indexOf("/changecity")!=-1){
+		$(".navbar li:eq(0)").addClass("cur");
+	}else if(url.indexOf("/gettolist")!=-1||url.indexOf("/putong")!=-1){
+		if( url.indexOf("#1") != -1){
+			$(".navbar li:eq(0)").removeClass("cur");
+			$(".navbar li:eq(1)").addClass("cur");
+		}else if(url.indexOf("#2") != -1){
+			$(".navbar li:eq(0)").removeClass("cur");
+			$(".navbar li:eq(2)").addClass("cur");
+		}else if(url.indexOf("#3") != -1){
+			$(".navbar li:eq(0)").removeClass("cur");
+			$(".navbar li:eq(3)").addClass("cur");
+		}
+		
+	}else if(url.indexOf("/detail")!=-1){
+		$(".navbar li:eq(0)").removeClass("cur");
+		$(".navbar li:eq(1)").addClass("cur");
+	}
+	else if(url.indexOf("/tuangou")!=-1||url.indexOf("/tuanGou")!=-1 ){
+		if( url.indexOf("#1") != -1){
+			$(".navbar li:eq(0)").removeClass("cur");
+			$(".navbar li:eq(1)").addClass("cur");
+		}else if(url.indexOf("#2") != -1){
+			$(".navbar li:eq(0)").removeClass("cur");
+			$(".navbar li:eq(2)").addClass("cur");
+		}else if(url.indexOf("#3") != -1){
+			$(".navbar li:eq(0)").removeClass("cur");
+			$(".navbar li:eq(3)").addClass("cur");
+		}
+		
+	}
+	else if(url.indexOf("/daiJinQuan")!=-1 ||url.indexOf("/voucher")!=-1 ){
+		if( url.indexOf("#1") != -1){
+			$(".navbar li:eq(0)").removeClass("cur");
+			$(".navbar li:eq(1)").addClass("cur");
+		}else if(url.indexOf("#2") != -1){
+			$(".navbar li:eq(0)").removeClass("cur");
+			$(".navbar li:eq(2)").addClass("cur");
+		}else if(url.indexOf("#3") != -1){
+			$(".navbar li:eq(0)").removeClass("cur");
+			$(".navbar li:eq(3)").addClass("cur");
+		}
+	}else if(url_path.indexOf("/poster")!=-1){
+        $(".navbar li:eq(0)").addClass("cur");
+    }
+	else {
+		$(".navbar li:eq(0)").removeClass("cur");
+	}
+	
+	/*$("#userlogin,#userregister").click(function(){
+		var path = GetUrlRelativePath();
+		if(GetUrlPara()!="" && GetUrlPara()!=null){
+			path =  GetUrlRelativePath()+"?"+GetUrlPara();
+		}
+		//setCookie("path",path,"0"); 
+		
+	});*/
+	//登出删除cookie
+	$(".exit").click(function(){
+		delCookie("path");
+		var ids = getCookie("ids");
+		if(ids!=null && ""!=ids){
+			var idx = ids.indexOf(",");
+			if(idx!=-1){
+				var arr = ids.split(",");
+				for(var i=0;i<arr.length;i++){
+					delCookie(arr[i]);
+				}
+			}else{
+				delCookie(ids);
+			}
+			delCookie("ids");
+		}
+	});
+	
+});
+function isInvalidStringValue(value) {
+    return value == null || value == "" || value == "undefined" || value == "null";
+}
+function getUrl(){
+	return window.location.href;
+}
+ 
+ 	
+function setCookie(objName, objValue, time){//添加cookie 
+    var str = objName + "=" + escape(objValue); 
+    if (time > 0) {//为0时不设定过期时间，浏览器关闭时cookie自动消失 
+        var date = new Date(); 
+        var ms = time * 3600 * 1000; 
+        date.setTime(date.getTime() + ms); 
+        str += "; expires=" + date.toGMTString(); 
+    } 
+    document.cookie = str; 
+} 
+function delCookie(name)
+{
+    var exp = new Date();
+    exp.setTime(exp.getTime() - 1);
+    var cval=getCookie(name);
+    if(cval!=null)
+        document.cookie= name + "="+escape(cval)+";expires="+exp.toGMTString();
+}
+
+function GetUrlRelativePath() {
+	var url = document.location.toString();
+	var arrUrl = url.split("//");
+
+	var start = arrUrl[1].indexOf("/");
+	var relUrl = arrUrl[1].substring(start);//stop省略，截取从start开始到结尾的所有字符
+
+	if (relUrl.indexOf("?") != -1) {
+		relUrl = relUrl.split("?")[0];
+	}
+	return relUrl;
+}
+
+function GetUrlPara() {
+	var url = document.location.toString();
+	var arrUrl = url.split("?");
+
+	var para = arrUrl[1];
+	return para;
+}
+
+function getQueryString(name) { 
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+	var r = window.location.search.substr(1).match(reg); 
+	if (r != null) return unescape(r[2]); 
+	return null; 
+} 
+function addUrl(){
+	
+}
+var ff=true;
+//投诉与反馈
+function feedBack()
+{	
+	var span='<span><img src="'+path+'/images/manage/prompt.png"></span>';
+	var name=$("#fb_name").val();
+	var phone=$("#fb_phone").val();
+	var email=$("#fb_email").val();
+	var types=[];
+	types=$('#feedback span[class="active"]');
+	var type="";
+	$.each(types,function(index,value){
+		type+=$(this).parent().find("div").attr("id")+",";
+	});
+	type=type.substring(0, type.length-1);
+	var describtion=document.getElementById("textareaSend").value;
+	var myreg =/^(13[0-9]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|4|5|6|7|8|9]|147|177)\d{8}$/;
+	var flag=true;
+	
+	var filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	if(ff==false){
+		return false;
+	}
+	if(type==null || type==''){
+		$(".prompt").html(span+"请填写完整信息");
+		return false;
+	}
+	if(name.length==0){
+		
+		$(".prompt").html(span+"请填写完整信息");
+		return false;
+	}
+	if(phone.length==0){
+		$(".prompt").html(span+"请填写完整信息");
+		return false;
+	}
+	if(email.length==0){
+		$(".prompt").html(span+"请填写完整信息");
+		return false;
+	}
+	
+	if(describtion.length==0){
+		$(".prompt").html(span+"请填写完整信息");
+		return false;
+	}
+	if(!filter.test(email))
+	{
+		$(".prompt").html(span+"请填写正确的邮箱");
+		return false;
+	}
+	if(!myreg.test(phone))
+	{
+		$(".prompt").html(span+"请填写正确的手机号码");
+		return false;
+	}
+	if(flag==true){
+	$.ajax({
+		type:"POST",
+		url:path+"/feedBack",
+		data:{fb_name:name,fb_phone:phone,fb_email:email,fb_describtion:describtion,fb_questionType:type,fb_type:1},
+		dataType: "json",
+		success:function(data){
+			if(data=="success"){
+				
+				if( typeof delayClosef === 'function' ){
+				    //存在且是function
+					
+					delayClosef();
+				}else{
+				    //不存在或不是function
+					
+					delayClose();
+				}
+				
+				delayClose();
+				/*$(".popup_www").fadeOut();
+				$("#bg").css("display","block");
+				$("#feedbackSucc").fadeIn();*/
+			}
+		}
+	});
+	}
+}
+function clearFeedBack(){
+	
+	document.getElementById("fb_name").value="";
+	document.getElementById("fb_phone").value="";
+	document.getElementById("fb_email").value="";
+	document.getElementById("textareaSend").value="";
+
+	if($("#homepageheader input[name='user']").val()==null){
+		//$(".popup popup_w popup_wt,#bg").css('display','block');
+		$(".popupv.popup_z,#backGroundColor").css('display','block');
+    	$(".popup_wf").css('display','none');
+		return false;
+	}
+}
+function blurname(){
+	$(".prompt").html("");
+	var name=$("#fb_name").val();
+	var span='<span><img src="'+path+'/images/manage/prompt.png"></span>';
+	if(name==null || name==''){
+		$(".prompt").html(span+"请填写姓名");
+		ff=false;
+	}else{
+		ff=true;
+	}
+}
+function blurphone(){
+	
+	var myreg =/^(13[0-9]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|4|5|6|7|8|9]|147|177)\d{8}$/;
+	$(".prompt").html("");
+	var phone=$("#fb_phone").val();
+	
+	var span='<span><img src="'+path+'/images/manage/prompt.png"></span>';
+	if(phone==null || phone==''){
+		$(".prompt").html(span+"请填写手机号码");
+		ff=false;
+	}
+	else if(!myreg.test(phone))
+	{
+		$(".prompt").html(span+"请填写正确的手机号码");
+		ff=false;
+	}else{
+		ff=true;
+	}
+}
+function bluremail(){
+	
+	var filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	var span='<span><img src="'+path+'/images/manage/prompt.png"></span>';
+	$(".prompt").html("");
+	var email=$("#fb_email").val();
+	if(email==null || email==''){
+		$(".prompt").html(span+"请填写邮箱");
+		ff=false;
+		return false;
+	}else if(!filter.test(email))
+	{
+		$(".prompt").html(span+"请填写正确的邮箱");
+		ff=false;
+		return false;
+	}else{
+		ff=true;
+	}
+}
+function blurdescribtion(){
+
+	$(".prompt").html("");
+	var describtion=$(".describtion").val();
+	var span='<span><img src="'+path+'/images/manage/prompt.png"></span>';
+	if(describtion==null || describtion==''){
+		$(".prompt").html(span+"请填写问题描述");
+		ff=false;
+		return false;
+	}else{
+		ff=true;
+	}
+}
+
+function showChangeCity(cityid,city) {
+    $('body').css('position','relative');
+    $("#toggle-city").fadeOut();
+    $.ajax({
+        type : "get",  //提交方式
+        url : path+"/changeCity?cityid="+cityid,//路径
+        success : function(result){
+            $("#area").html(city+'&nbsp;<span class="icon-down"></span>');
+            //需求：切换城市定位后，所有有城市信息的搜索页面需要做相应切换，
+            // ---在具体的页面需要定义changeLocateCity函数作为切换城市后的回调函数
+            changeLocateCity(cityid);
+        }
+    });
+}
+

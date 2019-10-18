@@ -1,0 +1,490 @@
+.top-tltle{
+  font-size: 16px;
+  padding: 14px 0;
+  color: #000;
+}
+.select select {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer;
+}
+.popup_w {
+  display: none;
+  position: absolute;
+  background: #fff;
+  padding: 30px 50px;
+  z-index: 10000;
+  overflow: hidden;
+  width: 520px;
+  left: 50%;
+  margin-left: -310px;
+  top: 60px;
+}
+.popup_w dd{
+  overflow: hidden;
+}
+.popup_w dd.special{
+  overflow: visible;
+}
+.popup_w dd.special .select{
+  overflow: visible;
+}
+.prompt {
+    font-size: 14px!important;
+    color: #cc0033;
+    margin-top: 10px;
+    height: 18px;
+    line-height: 18px;
+    width: 100%;
+    float: left;
+}
+.promptff {
+    font-size: 14px!important;
+    color: #cc0033;
+    margin-top: 10px;
+    height: 18px;
+    line-height: 18px;
+    width: 100%;
+    float: left;
+}
+.promptff span {
+    width: 18px;
+    height: 18px;
+    display: block;
+    float: left;
+    margin-right: 5px;
+}
+.popup_w dd.special .select .type-down{
+  top: 38px;
+  width: 518px;
+}
+.select.active .type-down{
+    display: block;
+}
+.popup_w a.close_br {
+  position: absolute;
+  display: block;
+  background: url(../images/dialogue/close_br.png);
+  width: 38px;
+  height: 38px;
+  right: 10px;
+  top: 10px;
+}
+.popup_w a.close_br:hover {
+  background: url(../images/dialogue/close_br_h.png);
+}
+.popup_w .title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+.popup_w .select.active .type-all {
+  display: block;
+}
+.popup_w .select.active span.icon-down {
+  background: url(../images/manage/icon.png) -13px -1px;
+}
+.popup_w .select {
+  float: left;
+  position: relative;
+  width: 254px;
+  font-size: 14px;
+  overflow: hidden;
+  border:none;
+  margin-right: 0;
+}
+.popup_w .select p:hover {
+  color: #c03;
+}
+.popup_w .select p {
+  outline: none;
+  width: 222px;
+  height: 38px;
+  line-height: 38px;
+  text-indent: 10px;
+  border: 1px solid #bdbdbe;
+  background: #fff;
+  cursor: pointer;
+  text-overflow: ellipsis;overflow: hidden;white-space: nowrap;
+  padding-right: 30px!important;
+}
+.popup_w .select .asterisk {
+  font-size: 14px;
+  margin-right: 3px;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+}
+.popup_w .select span.icon-down {
+  display: block;
+  width: 12px;
+  height: 8px;
+  background: url(../images/manage/icon.png) -1px -1px;
+  position: absolute;
+  top: 25px;
+  right: 20px;
+  cursor: pointer;
+}
+.popup_w .select .type-all {
+  width: 100%;
+  position: absolute;
+  top: 54px;
+  height: 156px;
+  overflow: hidden;
+  z-index: 1000;
+  display: none;
+}
+.popup_w .select .type-all .type-down {
+  width: 243px;
+  background: #fff;
+  border: 1px solid #bdbdbe;
+  border-top: none;
+  z-index: 100;
+}
+.popup_w .select .type-all .type-down li.first {
+  border-top: none;
+}
+.popup_w .select .type-all .type-down li {
+  font-size: 14px;
+  text-indent: 33px;
+  height: 38px;
+  line-height: 38px;
+  border-top: 1px solid #bdbdbe;
+}
+.popup_w .select .type-all .type-down li a {
+  display: block;
+}
+.popup_w .select.select_1 {
+  float: none;
+  width: 500px;
+}
+.popup_w .select.select_1 p {
+  width: 498px;
+}
+.popup_w .select.select_1 .type-all .type-down {
+  width: 498px;
+}
+.popup_w .input {
+  outline: none;
+  width: 243px;
+  height: 52px;
+  line-height: 52px;
+  text-indent: 10px;
+  border: 1px solid #bdbdbe;
+  background: #fff;
+  cursor: pointer;
+  float: left;
+  margin-left: 10px;
+  position: relative;
+  margin-top: 10px;
+}
+.popup_w .input .asterisk {
+  font-size: 14px;
+  margin-right: 3px;
+  position: absolute;
+  left: 8px;
+  top: 1px;
+}
+.popup_w .input .input_z {
+  height: 52px;
+  width: 160px;
+  outline: none;
+  border: none;
+  padding: 0;
+  margin-left: 22px;
+  font-size: 14px;
+}
+.popup_w .input span.company {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: block;
+  width: 60px;
+  text-align: center;
+  height: 100%;
+  opacity: 0.7;
+  font-size: 14px;
+}
+.popup_w .verification {
+  margin-top: 10px;
+  overflow: hidden;
+  float: left;
+}
+.popup_w .verification .img {
+  float: left;
+  height: 50px;
+  width: 121px;
+  border: 1px solid #bdbdbe;
+  margin-left: 10px;
+  display: block;
+}
+.popup_w .verification .img img {
+  height: 100%;
+}
+.popup_w .verification .input_z {
+  float: left;
+  height: 50px;
+  width: 121px;
+  border: 1px solid #bdbdbe;
+  margin-left: 10px;
+  text-indent: 10px;
+}
+.popup_w .verification .button {
+  width: 101px;
+  height: 55px;
+  line-height: 55px;
+  text-align: center;
+  background: #000;
+  color: #fff;
+  font-size: 14px;
+  display: block;
+  font-weight: bold;
+  float: left;
+  border: none;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.popup_w .verification .button:hover {
+  background: #434c53;
+}
+.popup_w #submit{
+  width: 500px;
+  height: 54px;
+  background: #c03;
+  display: block;
+  float: left;
+  margin-left: 10px;
+  margin-top: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 54px;
+  color: #fff;
+}
+.popup_w #submit:hover {
+  background: #ae002b;
+}
+.popup_w .title{ text-align:left; line-height:55px;border-bottom:1px solid #ccc; margin-bottom:20px;}
+.popup_w .select2{width:100%; margin:0;}
+.popup_w .select2 p{width:488px;}
+.popup_w .select span.icon-down{top:16px;right:15px;}
+.popup_w .input{width:252px;height:38px; line-height:38px; text-indent:4px;margin:0;}
+.popup_w .input .input_z{height:38px; vertical-align:top; margin-left:7px;}
+.popup_w #submit{height:40px; line-height:40px; font-size:16px; margin-left:0; float:none;width:100%;}
+.popup_w .red{color:#c03;}
+.popup_w dl.d{margin-bottom:8px;width:50%;}
+.popup_w dl.d dt{line-height:36px; font-size:14px;}
+.popup_w dl.d dt.hide{
+  text-overflow: ellipsis;overflow: hidden;white-space: nowrap;
+}
+.popup_w dl.d dd .txtEndDater{
+    width: 252px;
+    height: 36px;
+    line-height: 38px;
+    border: 1px solid #ccc;
+    text-indent: 10px;
+    font-size: 14px;
+    background: url(../images/manage/calendar.png) 217px center no-repeat;
+    cursor: pointer;
+}
+.calendar{
+  z-index: 100000!important;
+}
+.popup_w .fl{ float:left}
+.popup_w .fr{ float:right}
+.popup_w .text{width:252px;height:38px; line-height:38px; border:1px solid #ccc; text-indent:10px; font-size:14px;}
+.popup_w .text.width-bai{
+  width: 518px;
+}
+.popup_w .text.text2{width:360px;}
+.popup_w .code{width:90px;height:40px;}
+.popup_w .btn-h{width:140px;height:40px; line-height:40px;color:#000; font-size:14px; text-align:center; background:#e7e8ea;display:inline-table; vertical-align:middle; float:right;}
+.popup_w .btnh{ vertical-align:middle; display:inline-table; line-height:40px;}
+.popup_w .tip{color:#c03; font-size:14px;padding-top:15px;}
+
+.popup_w .type-down{
+   width: 274px;
+   background: #fff;
+   border:1px solid #bdbdbe;
+   border-top:none;
+   position: absolute;
+   top: 39px;
+   padding: 10px 0;
+   display: none;
+   z-index: 100;
+   max-height:200px;
+   overflow:auto;
+   display: none;
+}
+.popup_w .type-down li{
+	padding: 5px 0;
+	font-size: 14px;
+  margin: 0 10px;
+}
+.popup_w .type-down li a{
+	color: #8d8d8d;
+  display: block;
+  width: 100%;
+}
+.popup_w .type-down.exceed_omitted li a{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.popup_w .type-down li.wrap a{
+  overflow: visible;
+}
+.popup_w .type-down li a:hover{
+  color: #c03;
+}
+.popup_single_tip{
+  width: 500px;
+  height: 253px;
+  background: #fff;
+  position: fixed;
+  top: 50%;
+  margin-top: -126.5px;
+  left: 50%;
+  margin-left: -250px;
+  z-index: 10000;
+  display: none;
+}
+.popup_single_tip a.close_tip{
+    display: block;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 4;
+    background: #000 url(../images/icon.png) no-repeat -5px -405px;
+}
+.popup_single_tip a.close_tip:hover{
+  background:#404c53 url(../images/icon.png) no-repeat -5px -405px;
+}
+.popup_single_tip .title_tip{
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 65px;
+  color: #000;
+}
+.popup_single_tip p{
+  font-size: 14px;
+  color: #000;
+  text-align: center;
+  margin: 18px 0;
+}
+.popup_single_tip p span{
+  color: #cc0033;
+}
+.popup_single_tip a.b_link{
+  display: block;
+  color: #cc0033;
+  font-size: 14px;
+  max-width: 160px;
+  margin: 0 auto;
+}
+.popup_single_tip a.b_link:hover{
+  color: #ae002b;
+}
+.popup_single_tip a.b_link img{
+  width: auto;
+  display: inline-table;
+  vertical-align: top;
+  position: relative;
+  top: 5px;
+  margin-left: 5px;
+}
+@media screen and (max-width: 1024px){
+  .popup_w{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: auto;
+    margin: 0;
+    padding:0;
+  }
+  .popup_w .btnh{
+    line-height: 20px;
+    color: #000;
+  }
+  .popup_w .fr2 .btnh{
+    line-height: 40px;
+    display: inline-block;
+    width: 37%;
+  }
+  .popup_w .d.fl-w{
+    float: none;
+    width: 100%;
+  }
+  .popup_w .d.fl-w .select p{
+    width: 93%;
+    padding-right: 6%!important;
+  }
+  .popup_w .all_right{
+    padding: 30px 20px;
+  }
+  .popup_w .fl{
+    width: 48%;
+  }
+  .popup_w .fr{
+    width: 48%;
+  }
+  .popup_w .select{
+    width: 100%;
+  }
+  .popup_w .select p{
+    width: 90%;
+    padding-right: 8%!important;
+  }
+  .popup_w .text{
+    width: 98.5%;
+  }
+  .popup_w .text.width-bai{
+    width: 98.7%;
+  }
+  .popup_w .text.text2{
+    width: 60%;
+  }
+  .popup_w .select span.icon-down{
+    right: 10px;
+  }
+  .popup_w .fr.fr2,.popup_w .btn-h{
+    width: 36%;
+  }
+  .popup_w .code{
+    width: 51%;
+    display: inline-block;
+  }
+  .popup_w dl.d dd .txtEndDater{
+    width: 98%;
+    background: url(../images/manage/calendar2.png) right center no-repeat;
+  }
+  .popup_w .select.select2 p{
+    width: 93%;
+    padding-right: 6%!important;
+  }
+  .popup_w dd.special .select .type-down{
+    width: 99%;
+  }
+}
+@media screen and (max-width: 570px){
+  .popup_single_tip{
+    width: 94%;
+    left: 0;
+    margin: 0 3%;
+    margin-top: -130px;
+  }
+  .popup_single_tip p{
+    padding: 0 10px;
+  }
+}

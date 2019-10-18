@@ -1,0 +1,135 @@
+function myalert(msg,fun){
+	if(fun){
+		myLayer.confirm({
+			con:msg,
+			ok: function(){
+				fun();
+			}
+		});	
+	}else{
+		myLayer.confirm({con:msg});
+	}
+}
+
+function myconfirm(msg,fun){
+	myLayer.confirm({
+		con:msg,
+		cancel: function(){},
+		ok: function(){
+			fun();
+		}
+	});	
+}
+function mypost(url,param,fun){
+	myLayer.load();
+	$.ajax({
+  	    type : "POST",
+  	    url : url,
+  	    data : param,
+  	    dataType:"text",
+  	    success : function (res) {
+  	  		myLayer.clear();
+  	  		fun(res);
+  	    },
+  	    error :function(){
+  	  		myLayer.clear();
+  	  	    myalert("网络出错");
+  	    }
+  	});
+//	$.post(url,param,function(res){
+//		myLayer.clear();
+//		fun(res);
+//	});
+}
+
+function myajaxSubmit(form,fun){
+	myLayer.load();
+	$(form).ajaxSubmit(function(res){
+		myLayer.clear();
+		eval("var res="+res);
+		fun(res);
+	});
+}
+
+function mycache(form,fun){
+	var action = $(form).attr("action");
+	$(form).attr("action","customer.code.php?do=cache");
+	myajaxSubmit(form,function(res){
+		fun();
+	});
+	
+	$(form).attr("action",action);
+}
+
+
+var _nowpageurl = "";
+function myloadPage(url){
+	if(url){
+		_nowpageurl=url;
+	}else{
+		_nowpageurl=location.href;
+	}
+	/**
+	myLayer.load();
+	
+	$.get(url,function(html){
+		myLayer.clear();
+		var re = /<body[^>]*>([\s\S]*)<\/body>/;
+		var result=  re.exec(html); 
+		
+		if(result){
+			$("body").html(html);
+		}
+	});**/
+	location.href=_nowpageurl;
+}
+
+/**
+	剩余时间  参数=剩余秒数  返回数组  0时 1分 2秒
+ */
+function surplusTime(time){
+	
+	
+	if(time>0){
+		var shi = parseInt(time/60/60);
+		last = time%(60*60);
+		var fen = parseInt(last/60);
+		var miao = last%60;
+		var mycars=new Array();
+		
+		if(shi<10) shi="0"+shi;
+		if(fen<10) fen="0"+fen;
+		if(miao<10) miao="0"+miao;
+		
+		mycars[0]=shi;
+		mycars[1]=fen;
+		mycars[2]=miao;
+		return mycars;
+	}else{
+		return null;
+	}
+	
+}
+
+
+//写入cookie
+function setCookie(name,value){
+	var Days = 30; //此 cookie 将被保存 30 天
+	var exp = new Date();
+	exp.setTime(exp.getTime() + Days*24*60*60*1000);
+	document.cookie = name + "="+ escape (value) + ";path=/;expires=" + exp.toGMTString();
+}
+///删除cookie
+function delCookie(name){
+	var exp = new Date();
+	exp.setTime(exp.getTime() - 1);
+	var cval=getCookie(name);
+	if(cval!=null) document.cookie= name + "="+cval+";path=/;expires="+exp.toGMTString();
+}
+//读取cookie
+function getCookie(name){
+	var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+	if(arr != null)
+	return unescape(arr[2]);
+	return null;
+}

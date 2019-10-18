@@ -1,0 +1,104 @@
+body {
+  overflow-x: hidden;
+}
+.m-content {
+  background-color: #f0f0f0;
+  padding-bottom: 28px;
+}
+.m-main {
+  background-color: #f0f0f0;
+}
+.selected-area {
+  padding: 12px 15px;
+  background-color: #ffffff;
+}
+.selected-area .m-left {
+  float: left;
+}
+.selected-area .m-left .form-inline .arrow-down {
+  position: relative;
+  width: 193px;
+  display: inline-block;
+}
+.selected-area .m-left .form-inline .arrow-down:after {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-style: solid;
+  border-color: #333;
+  border-width: 1px 1px 0 0;
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+  position: absolute;
+  right: 10px;
+  top: 0;
+  margin-top: 11px;
+}
+.selected-area .m-left .form-inline .form-control {
+  width: 193px;
+  outline: 0;
+  background-color: #f8f8f8;
+  color: #333;
+  border-radius: 0;
+}
+.selected-area .m-right {
+  float: right;
+  line-height: 38px;
+  font-size: 14px;
+  color: #999999;
+}
+.selected-area .m-right span.default {
+  color: #999999;
+}
+.selected-area .m-right span.result {
+  color: #333333;
+}
+.m-newcar-list .m-area {
+  position: relative;
+  float: left;
+  display: block;
+  width: 261px;
+  padding: 16px 16px 0;
+  margin-top: 10px;
+  margin-right: 10px;
+  background-color: #ffffff;
+}
+.m-newcar-list .m-area:nth-of-type(4n) {
+  margin-right: 0;
+}
+.m-newcar-list .m-area .m-discount-fav {
+  top: 16px;
+  left: 16px;
+}
+.m-newcar-list .m-area .pro-img {
+  margin-bottom: 7px;
+  margin-top: 0;
+}
+.m-newcar-list .m-area .pro-img img {
+  display: block;
+  width: 100%;
+}
+.m-newcar-list .m-area .pro-text .pro-name {
+  font-size: 18px;
+  color: #000;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  _width: 100%;
+}
+.m-newcar-list .m-area .pro-text .pro-sub {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  _width: 100%;
+  color: #999;
+  font-size: 14px;
+  margin-top: 0;
+  margin-bottom: 7px;
+}
+.m-newcar-list .m-area .pro-text .pro-price {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 15px;
+}

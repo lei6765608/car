@@ -1,0 +1,219 @@
+var clock = '';
+var nums = 60;
+var btn;
+function doLoop() {
+    nums--;
+    if (nums > 0) {
+        btn.value = '重新获取 ' + nums;
+    } else {
+        clearInterval(clock); //清除js定时器
+        btn.disabled = false;
+        btn.value = '获取验证码';
+        nums = 60; //重置时间
+    }
+}
+
+//显示快速登录的弹框
+function showEasyLoginPage() {
+    // document.getElementById("showImgCode").src=path+"/imVerifyCode?time="+new Date().getTime();
+    $("#backGroundColor,#easyLogin").attr("style", "display: block;");
+}
+
+var jugef = false;
+var yorn = false;
+//验证手机号
+function jugePhoneNum(phoneNum) {
+    //var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
+    var reg = /^1[34578]\d{9}$/;
+    if (phoneNum == "") {
+        jugef = false;
+        $("#getCodePhoneYz").html("<span><img src='" + path + "/images/manage/prompt.png'></span>请输入手机号码");
+        $("#getCodePhoneYz").attr("style", "display:;");
+    } else {
+        if (reg.test(phoneNum)) {
+            jugef = true;
+            $("#getCodePhoneYz").attr("style", "display: none;");
+        } else {
+            jugef = false;
+            $("#getCodePhoneYz").html("<span><img src='" + path + "/images/manage/prompt.png'></span>手机号码不正确");
+            $("#getCodePhoneYz").attr("style", "display:;");
+        }
+    }
+}
+
+//验证图形验证码
+function jugeimgCode(imgCode) {
+    if (imgCode == "") {
+        jugef = false;
+        $("#imgCodeYz").html("<span><img src='" + path + "/images/manage/prompt.png'></span>请输入图形验证码");
+        $("#imgCodeYz").attr("style", "display:;");
+    } else {
+        $.ajax({
+            url: path + "/jugeimgCode",
+            data: "formImgCode=" + imgCode,
+            type: "post",
+            success: function (res) {
+                res = JSON.parse(res);
+                if (res == "true") {
+                    jugef = true;
+                    yorn = true;
+                    $("#imgCodeYz").attr("style", "display:none;");
+                } else {
+                    jugef = false;
+                    yorn = false;
+                    $("#imgCodeYz").html("<span><img src='" + path + "/images/manage/prompt.png'></span>图形验证码错误");
+                    $("#imgCodeYz").attr("style", "display:;");
+                }
+            }
+        });
+    }
+}
+
+//验证手机验证码
+function jugephoCode(phoCode) {
+    if (phoCode == "") {
+        jugef = false;
+        $("#phoCodeYz").html("<span><img src='" + path + "/images/manage/prompt.png'></span>请输入验证码");
+        $("#phoCodeYz").attr("style", "display:;");
+    } else {
+        $.ajax({
+            url: path + "/jugephoCode",
+            data: "formPhoCode=" + phoCode,
+            type: "post",
+            success: function (res) {
+                res = JSON.parse(res);
+                if (res == "true") {
+                    jugef = true;
+                    $("#phoCodeYz").attr("style", "display:none;");
+                } else {
+                    jugef = false;
+                    $("#phoCodeYz").html("<span><img src='" + path + "/images/manage/prompt.png'></span>验证码错误");
+                    $("#phoCodeYz").attr("style", "display:;");
+                }
+            }
+        });
+    }
+}
+
+//获取手机验证码
+function getMessageCode(thisBtn) {
+    var tel = $("#getCodePhone").val();
+    var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
+    var code = $("#imgCode").val();
+    if (reg.test(tel)) {
+        jugeimgCode(code);
+        if (yorn) {
+            $("#getCodePhoneYz").attr("style", "display:none;");
+            btn = thisBtn;
+            btn.disabled = true; //将按钮置为不可点击
+            btn.value = '重新获取 ' + nums;
+            clock = setInterval(doLoop, 1000); //一秒执行一次
+            //alert("ok");
+            $.ajax({
+                url: path + "/sendVerification",
+                type: "post",
+                data: "messageText=欢迎注册奥迪二手车帐号，您的验证码为：&phoneNumber=" + tel,
+                success: function (res) {
+                    var json = JSON.parse(res);
+                    if (json.mes == "suc") {
+                    }
+                }
+            });
+        } else {
+        }
+    } else {
+        if (tel == "") {
+            $("#getCodePhoneYz").html("<span><img src='" + path + "/images/manage/prompt.png'></span>请输入手机号码");
+            $("#getCodePhoneYz").attr("style", "display:;");
+        } else {
+            $("#getCodePhoneYz").html("<span><img src='" + path + "/images/manage/prompt.png'></span>手机号码不正确");
+            $("#getCodePhoneYz").attr("style", "display:;");
+        }
+    }
+    ;
+}
+//刷新图形验证码
+function changeImgCode() {
+    document.getElementById("showImgCode").src = path + "/imVerifyCode?time=" + new Date().getTime();
+}
+
+//验证登陆
+function ImEasyRegister() {
+    var phone = $("#getCodePhone").val();
+    var imgCode = $("#imgCode").val();
+    var phoCode = $("#phoCode").val();
+    jugePhoneNum(phone);
+    //  jugeimgCode(imgCode);
+    // jugephoCode(phoCode);
+
+
+    if (jugef) {
+        $.ajax({
+            url: path + "/easyRegisterUser",
+            data: "easyRegPhone=" + phone + "&easyRegImgCode=" + imgCode + "&easyRegPhoCode=" + phoCode,
+            type: "post",
+            success: function (res) {
+                var json = JSON.parse(res);
+                if (json.mes == "openTake") {
+                    //清除提示
+                    $("#getCodePhoneYz").attr("style", "display: none;");
+                    $("#imgCodeYz").attr("style", "display: none;");
+                    $("#phoCodeYz").attr("style", "display: none;");
+                    //关闭窗口
+                    $("#backGroundColor,#easyLogin").attr("style", "display: none;");
+
+                    if (window.document.location.href.indexOf("assess")!=-1) {
+                        tostartGrabjin();
+                    } else {
+ //                       onLineTake();
+/*                        //显示右下角提示
+                        if (cheilSource == "pc") {
+                            $("#btn-online").attr("style", "display: block;");
+                        }
+                        alert("hello");
+
+//                    clearForm();
+
+                        // var newTab = window.open('', 'newwindow');
+
+                        // newTab.location.href = "init";*/
+                        location.reload();
+                        clearForm();
+                    }
+                } else {
+//					alert(json.val);
+                    /*if(json.val == "手机验证码有误,请重新获取"){
+                     //手机验证码有误,请重新获取
+                     $("#phoCodeYz").html("<span><img src='"+path+"/images/manage/prompt.png'></span>验证码错误");
+                     $("#phoCodeYz").attr("style","display:;");
+                     }else{
+                     //图形验证码有误
+                     $("#imgCodeYz").html("<span><img src='"+path+"/images/manage/prompt.png'></span>图形验证码错误");
+                     $("#imgCodeYz").attr("style","display:;");
+                     }*/
+                }
+            }
+        });
+    }
+}
+
+//关闭快速登陆弹框
+function closeEasyLogin() {
+    $("#backGroundColor,#easyLogin").attr("style", "display: none;");
+    $('body').removeClass('active_w');
+}
+
+//清空表单
+function clearForm() {
+    $("#getCodePhone").html("");
+    $("#getCodePhone").val("");
+    $("#imgCode").html("");
+    $("#imgCode").val("");
+    $("#phoCode").html("");
+    $("#phoCode").val("");
+}
+
+
+function toSignIn() {
+    location.href = path + "/sign_in?redirectURL=" + window.location.href;
+}

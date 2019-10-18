@@ -1,0 +1,65 @@
+$(function(){
+	var url ;
+	//预付订金是否登录
+	$(".limit").click(function(){
+		url = $(this).attr("href");//获取当前地址的url
+		/*if(url.indexOf("?")!=-1){
+			url =  url.split("?")[0];
+		}*/
+
+
+
+		$.get(url);
+		return false;
+	});
+
+	//点击右侧收藏
+	$(".second-icon").click(function(){
+        if($("#homepageheader input[name='user']").val()==null){
+			//$(".popup_w,.background").css('display','block');
+			$(".popupv.popup_z,#backGroundColor").css('display','block');
+        	$(".popup_wf").css('display','none');
+            // href="/frontend/u_collection?ci_cType=1"
+                 return false;
+		}
+		else{
+			if($(window).width()>500){
+                window.open(path+"/u_collection?ci_cType=1");
+			}else if($(window).width()<=500){
+                window.open(path+"/mb_collection?ci_cType=1");
+			}
+
+		}
+
+	});
+	// mobile版 点击右侧收藏
+	$("#scauto").click(function(){
+		if($("#header input[name='user']").val()==null){
+			//$(".popup_w,.background").css('display','block');
+			$(".popupv.popup_z,#backGroundColor").css('display','block');
+        	$(".popup_wf").css('display','none');
+			return false;
+		}
+
+	});
+
+	//全局ajax控制，登陆弹出框
+	$.ajaxSetup({
+	    cache: false, //close AJAX cache
+	    contentType:"application/x-www-form-urlencoded;charset=utf-8",
+	    complete:function(XHR,textStatus){
+	        var resText = XHR.responseText;
+	        if(resText == 'login'){
+	        	$(".popupv.popup_z").css("z-index","1005");
+				$("#popuppopup_wpopup_wt,#backGroundColor").css('display','block');
+	        	$(".popup_wf").css('display','none');
+	        } else if(resText == 'islogin'){
+	        	window.location.href = url;
+	        }
+	    }
+	});
+
+});
+function goToAjax(url,param){
+	$.get(url,param);
+}

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<!-- saved from url=(0027)https://onlineshop.audi.cn/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>奥迪在线4S店</title>
+    <meta name="keywords" content="奥迪4S店官网,奥迪4S店,奥迪二手车4S店,一汽奥迪4S店,奥迪汽车4s店">
+    <meta name="description" content="欢迎来到一汽-大众奥迪4S店官方网站。在这里您可以详细浏览奥迪4S店全线车型、奥迪授权经销商、奥迪官方认证二手车等内容，体验奥迪精彩人生，与卓越未来相伴同行。">
+    <link rel="shortcut icon" type="image/x-icon" href="https://audi4simage.touchyes.com/images/icon_web.png">
+    
+    </head><body><div style="margin:0 auto;width:0px;height:0px;overflow:hidden; ">
+        <img src="https://audi4simage.touchyes.com/images/headlogo.jpg">
+    </div>
+    <link rel="stylesheet" href="./search-price_files/global.css">
+    <link rel="stylesheet" href="https://onlineshop.audi.cn/css/act.css">
+    <link rel="stylesheet" href="https://onlineshop.audi.cn/css/homepage.css">
+    <link rel="stylesheet" href="https://onlineshop.audi.cn/css/assess.css">
+    <link rel="stylesheet" href="https://onlineshop.audi.cn/css/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" href="https://onlineshop.audi.cn/css/carousel.css">
+    <link rel="stylesheet" href="https://onlineshop.audi.cn/css/swiper.min.css">
+    <style>
+        .poster-main {
+            width: 1000px;
+            margin: 0 auto;
+        }
+        #position {
+            position: relative;
+            width: 898px;
+        }
+
+        #position ul {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #ECECEC;
+            padding: 0;
+            margin: 0;
+        }
+
+        #position li {
+            position: absolute;
+            list-style-type: none;
+            width: 1px;
+            height: 1px;
+            background: #BCB5B5;
+            top: 0px;
+            left: 0px;
+            z-index: 0;
+            background-size: 100% 100% !important;
+        }
+
+        #position li a {
+            width: 100%;
+            height: 100%;
+            display: inline-block;
+        }
+
+        #position span {
+            display: block;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 38%;
+            z-index: 3;
+        }
+
+        #position span i {
+            width: 30px;
+            height: 100%;
+            background-color: #b00;
+            cursor: pointer;
+            background-size: 100%;
+        }
+
+        .banner-pack {
+            width: 1180px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .banner-spack {
+            position: absolute;
+            left: 250px;
+        }
+
+        .swiper-left {
+            float: left;
+        }
+
+        .swiper-right {
+            float: right;
+        }
+
+        /*.swiper1 .swiper-pagination-bullet {*/
+        /*width: 12px;*/
+        /*height: 12px*/
+        /*}*/
+
+        .swiperhome .swiper-pagination-bullets{
+            bottom: 30px;
+        }
+        .models-act .item p.price .price_first {
+            display: inline-block;
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+            font-weight: normal;
+        }
+        .models-act .item p.price .price-pullright {
+            float: right;
+        }
+        .models-act .item p.price .price_second{
+            display: none;
+        }
+        .models-act .item p.price span {
+            float: none;
+        }
+        .swiperhome .swiper-pagination-bullet{
+            width: 16px;
+            height: 16px;
+            background: #9FA0A0;
+            margin: 0 15px !important;
+        }
+        .swiperhome .swiper-pagination-bullet-active{
+            background: #FFFFFF;
+        }
+        .swiper1 .swiper-pagination-bullet-active {
+            opacity: 1;
+            background: #c03;
+        }
+
+        .swiper-containert {
+            float: right;
+            width: 740px;
+            background-color: #FFFFFF;
+         padding: 19px;
+            background-size: 100% 100%;
+        }
+
+        .swiper-containert {
+            float: right;
+            width: 740px;
+            background-color: #FFFFFF;
+            padding: 19px 40px;
+            background-size: 100% 100%;
+            border: 1px solid #ddd;
+        }
+        .hot-recommend .item-week{border:1px solid #ddd;}
+        .icon-gos{padding-left: 0;}
+
+
+
+        .swiper-containers {
+            /*float: right;*/
+            width: 94%;
+            background-color: #FFFFFF;
+        
+            /*padding: 20px;*/
+            display: none;
+            background-size: 100% 100%;
+            /*border-bottom: 10px solid #ffffff;*/
+
+        }
+
+        .swiper-button-prev, .swiper-container-rtl .swiper-button-next {
+            background-image: url('https://audi4simage.touchyes.com/images/cariou-left.png');
+        }
+
+        .swiper-button-next, .swiper-container-rtl .swiper-button-prev {
+            background-image: url('https://audi4simage.touchyes.com/images/cariou-right.png');
+        }
+
+        .swiper-containers .box-bt {
+            background-color: #c03;
+            overflow: hidden;
+            padding: 12px;
+        }
+
+        .swiper-containers .box-bt .t-detail {
+            color: white;
+            /*height: 80px;*/
+            float: left;
+        }
+
+        .swiper-containers .box-bt .t-detail span {
+            margin-right: 5px;
+        }
+
+        .swiper-containers .box-bt .search-detail {
+            float: right;
+            width: 33px;
+            padding: 1px;
+            height: 31px;
+            line-height: 15px;
+            text-align: center;
+            font-size: 11px;
+            color: #FFFFFF;
+            border: 1px solid #FFFFFF;
+        }
+
+        .swiper-containers .price {
+            font-size: 16px !important;
+            font-weight: bold;
+        }
+        .active{
+            display: block !important;
+        }
+        .hot-recommend .item-week .viev-all{
+            margin: 45px auto 0 auto;
+            line-height: 60px;
+        }
+        /*竞价*/
+        .w1180 {
+            width: 1180px;
+            margin: 0 auto;
+        }
+        .mt40 {
+            margin-top: 40px;
+        }
+        .bidding-img {
+            width: 21%;
+            /*height: 351px;*/
+            display: inline-block;
+            float: left;
+            cursor: pointer;
+        }
+        .bidding-img .bidding-middle{
+            height: 351px;
+        }
+        .bidding-img img{
+            height: 170px;
+        }
+        .bidding-box {
+            float: left;
+            margin-left: 1%;
+            width: 78%;
+        }
+        .bidding-box ul li {
+            float: left;
+            border: 1px solid #b5b5b5;
+            padding: 12px;
+            position: relative;
+            width: 49%;
+            margin: 0 2% 10px 0;
+            display: inline-block;
+            box-sizing: border-box;
+            background-color: #FFFFFF;
+        }
+        .bidding-box ul li:nth-child(even) {
+            margin: 0 0 10px 0;
+        }
+        .bidding-box ul li >div {
+            float: left;
+            width: 48%;
+        }
+        .bidding-box ul li > div:nth-child(1) {
+            position: relative;
+        }
+        .bidding-box ul li >div:nth-child(1) img{
+            height: 146px;
+        }
+        .bidding-box ul li >div:nth-child(2) {
+            margin-left: 2%;
+            width: 50%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .bidding-box ul li .bidding-cont h3{
+            font-size: 16px;
+            color: #000;
+            font-weight: bold;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .bidding-box ul li .bidding-cont h3:hover a{
+            color: #cc0033;
+        }
+        .bidding-box .bidding-cont p {
+            font-size: 12px;
+            line-height: 22px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .bidding-box .bidding-cont .bidding-money {
+            font-size: 24px;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .bidding-box .bidding-cont .bidding-money > span {
+            font-size: 14px;
+            color: #999;
+            font-weight: normal;
+        }
+        @media screen and (max-width: 1180px) {
+            .bidding-box .bidding-cont .bidding-money {
+                font-size: 18px;
+                color: #000;
+                font-weight: bold;
+            }
+
+            .bidding-box .bidding-cont .bidding-money > span {
+                font-size: 14px;
+                color: #999;
+            }
+        }
+        .bidding-box .bidding-cont .bid-moneyWap {
+            font-size: 18px;
+            font-weight: bold;
+            color: #cc0033;
+            display: none;
+        }
+        .bidding-box .bidding-cont .bid-moneyWap span:nth-child(1){
+            /*position: absolute;*/
+            /*left: 40%;*/
+            /*bottom: 14px;*/
+            /*font-size: 12px;*/
+            /*color: #666;*/
+            /*font-weight: normal;*/
+            color: #000;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .bidding-box .bidding-cont .bid-moneyWap span:nth-child(2){
+            /*position: absolute;*/
+            /*right: 10px;*/
+            /*bottom: 14px;*/
+            font-size: 11px;
+            color: #666;
+            margin-left: 6px;
+            font-weight: normal;
+        }
+        .bidding-box ul li .bid-prepare{
+            text-align: center;
+            padding-top: 40px;
+            color: #000;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .bidding-box .bidding-time {
+            position: absolute;
+            bottom: 12px;
+            right: 0;
+            color: #fff;
+            font-size: 14px;
+            width: auto;
+        }
+        .bidding-box .bidding-time .bid-timeBg{
+            background: #c03;
+            padding: 0 5px;
+            height: 30px;
+            line-height: 30px;
+        }
+        .bidding-box .bidding-time .gray {
+            background: #999;
+            padding: 0 5px;
+            height: 30px;
+            line-height: 30px;
+        }
+        .bidding-box .bidding-time i {
+            width: 0;
+            height: 0;
+            border-left: 17px solid transparent;
+            border-right: 17px solid transparent;
+            border-bottom: 30px solid #c03;
+            margin-left: -17px;
+        }
+        .bidding-box .bidding-time .icon-gray {
+            width: 0;
+            height: 0;
+            border-left: 17px solid transparent;
+            border-right: 17px solid transparent;
+            border-bottom: 30px solid #999;
+            margin-left: -17px;
+        }
+        .bidding-box .bidding-time img {
+            width: 16px;
+            margin-top: 6px;
+            padding-right: 5px;
+        }
+        .bidding-box .time-img {
+            position: absolute;
+            bottom: 10px;
+            right: 3px;
+            color: #fff;
+            font-size: 10px;
+            display: none;
+        }
+        .bidding-box .time-img i{
+            width: 0;
+            height: 0;
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-bottom: 20px solid #c03;
+            margin-left: -14px;
+        }
+        .bidding-box .time-img .icon-gray {
+            width: 0;
+            height: 0;
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-bottom: 20px solid #999;
+            margin-left: -14px;
+        }
+        .bidding-box .time-img .bid-timeBg {
+            height: 20px;
+            line-height: 20px;
+            background: #c03;
+            padding: 0 3px;
+        }
+        .bidding-box .time-img .gray {
+            height: 20px;
+            line-height: 20px;
+            background: #999;
+            padding: 0 3px;
+        }
+        .clearfix:after {
+            content: '';
+            clear: none;
+            display: inline-block;
+        }
+        .bidding-m {
+            display: none;
+        }
+        @media screen and (max-width: 700px) {
+            .hide {
+                display: none !important;
+            }
+            .w1180 {
+                width: 95%;
+            }
+            .bidding-pc {
+                display: none;
+            }
+            .bidding-middle{
+                display: none;
+            }
+            .bidding-m {
+                display: block;
+            }
+            .bidding-img {
+                width: 100%;
+                height: auto;
+            }
+            .bidding-img img {
+                height: auto;
+            }
+            .bidding-box {
+                width: 100%;
+                margin-left:0;
+                padding-top: 6px;
+            }
+            .bidding-box ul li {
+                width: 100%;
+                float: none;
+                margin: 0;
+                border: none;
+                border-bottom: 1px solid #eeeeee;
+                padding: 9px 0 9px 0;
+            }
+            .bidding-box ul li:nth-child(even) {
+                margin: 0;
+            }
+            .bidding-box ul li >div {
+                width: 38%;
+            }
+            .bidding-box ul li >div:nth-child(1) img {
+                height: auto;
+                min-height:105px;
+            }
+            .bidding-box ul li >div:nth-child(2) {
+                width: 58%;
+            }
+            .bidding-box .bidding-cont .bidding-money {
+                display: none;
+            }
+            .bidding-box .bidding-cont .bid-moneyWap {
+                display: block;
+            }
+            .bidding-box .bidding-time {
+                display: none;
+            }
+            .bidding-box .time-img {
+                display: inline-block;
+            }
+            .models-act .item.item_w{padding: 3px 0 0 0;}
+            .act-box .items .info{width: 100%;}
+            .act-box .items .info p{width: 130%; color: #000;}
+            .act-box .items .zc span{margin: 5px 0; font-size: 10px; padding-right: 6%;  width: auto;}
+            .info .mh span{font-size: 11px;}
+            .models-act .item p.tagIds span{padding: 0 10px; line-height: 16px;}
+            .models-act .item h3{font-size: 16px;}
+            .models-act .item p.price .price-pullright{font-size: 18px;}
+        }
+        @media screen and (max-width: 500px) {
+            .models-act .item .tagIds{
+                margin-bottom: 0;
+            }
+            .models-act .item p.price .price-pullright {
+                float: none;
+                font-size: 18px;
+            }
+            .models-act .item p.price .price-pullright {
+                float: none;
+            }
+            .models-act .item p.price .price_first{
+                display: none;
+            }
+            .models-act .item p.price .price_second{
+                display: inline-block;
+                float: none;
+                font-size: 11px;
+                color: #666666;
+                font-weight: normal;
+            }
+            .hot-recommend .item-week{border:none;}
+            .swiper-containert{border: none;}
+            .mt40 {
+                margin-top: 0;
+            }
+            .models-act .item.item_w .image{margin-bottom: 10px;}
+            .mod .title_lebals{margin-bottom: 8px;}
+            .bidding-box ul li .bidding-cont h3 a{color: #333;}
+        }
+        @media screen and (max-width: 415px){
+            .models-act .item h3 {
+                width: 100%;
+                margin-bottom: 16px;
+                color: #333333;
+                font-size: 16px;
+            }
+            .models-act .item p {
+                padding: 0;
+                margin-bottom: 14.5px;
+            }
+            .models-act .item .tagIds{margin-bottom: 5px;}
+        }
+
+        @media screen and (max-width: 375px) {
+            .bidding-box  .bidding-cont .bidding-money {
+                font-size: 18px;
+                font-weight: bold;
+            }
+            .bidding-box .bidding-cont p {
+                line-height: 20px;
+            }
+            .bidding-box  .bidding-cont .bidding-money span{
+                font-size: 12px;
+            }
+            .models-act .item h3 {
+                margin-bottom: 10.5px;
+            }
+            .models-act .item p {
+                margin-bottom: 10.5px;
+            }
+        }
+        @media screen and (max-width: 375px){
+            .models-act .item h3 {
+                margin-bottom: 8.5px;
+            }
+            .models-act .item p {
+                margin-bottom: 8.5px;
+            }
+            .models-act .item.item_w .image .old_car{width: 127px; height: 39px;}
+        }
+        @media screen and (max-width: 320px){
+            .models-act .item p {
+                margin-bottom: 5px;
+            }
+            .models-act .item h3 {
+                margin-bottom: 5px;
+            }
+            .act-box .items .zc span{margin-right: 2px;}
+        }
+    </style>
+    <script src="https://onlineshop.audi.cn/js/jquery-1.12.4.min.js"></script>
+    <script src="https://onlineshop.audi.cn/js/carousel.js"></script>
+    <script src="https://onlineshop.audi.cn/js/swiper.min.js"></script>
+    <script>
+        var path = "";
+        var imgpath = "https://audi4simage.touchyes.com";
+    </script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&amp;ak=WfFHK2d62lTc7yFAhrUmUE4vKmSr6ErZ"></script><script type="text/javascript" src="https://api.map.baidu.com/getscript?v=2.0&amp;ak=WfFHK2d62lTc7yFAhrUmUE4vKmSr6ErZ&amp;services=&amp;t=20190622163250"></script></body></html>

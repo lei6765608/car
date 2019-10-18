@@ -1,0 +1,182 @@
+jQuery.extend($.fn, {
+        fileUpload: function(opts) {
+            this.each(function() {
+            	
+            	var dft= {
+    				quality:100,//图像品质压缩 %
+    				url:'/ajax.php?do=fileup',//上传地址
+    				max:6,//图片同时上传最多张数
+    				fileSize:5,//上传图片文件大小限制， 默认 3M
+    				before:function(file){//图片上传前调用方法 返回TRUE继续
+    					return true;
+    				}
+    			}
+            	opts = $.extend(dft,opts);
+            	
+                var self = $(this);
+                var imgsCount = 0;
+                var selectFiles=null;
+                var quality = opts.quality ? opts.quality / 100 : 1;
+                var max = opts.max?opts.max:1;
+                var dom = {
+                    "fileToUpload": self,
+                    "thumb": opts.thumb,
+                    "progress": null
+                };
+                
+                var funs = {
+                    bindEvent: function() {
+                        console.log(dom.fileToUpload)
+                        dom.fileToUpload.on("change", function() {
+                            funs.fileSelect(this);
+                        });
+                    },
+                    fileSelect: function(obj) {
+                    	
+                    	//判断浏览器是否支持FileReader接口  
+                    	if(typeof FileReader == 'undefined'){  
+                    	    funs.error("您的浏览器不支持FileReader接口！<br/>建议使用谷歌浏览器或IE11版本<br/>其他浏览器请使用极速模式");
+                    	    return;
+                    	}  
+                    	
+                    	if(!opts.before(obj)){
+                    		obj.value="";
+                    		return;
+                    	}
+                    	var nowCount = obj.files.length;//当前选择的张数
+                    	if(max!=0 && imgsCount+nowCount>max){
+                    		funs.error("同时上传图片数量不能超过"+max+"张");
+                    		obj.value="";
+                    		return;
+                    	}
+                    	selectFiles = obj.files;
+                    	funs.compress(selectFiles[0],0);
+                    },
+                    error:function(msg){
+                    	if(opts.error){
+                    		opts.error(msg);
+                    	}
+                    	myalert(msg);
+                    	myLayer.clear();
+                    },
+                    compress:function(file,index){
+                    	
+                    	if(index==0){
+                        	myLayer.load("上传中...");
+                    	}
+                    	
+                    	var fsize = parseInt((file.size)/1024); //计算图片大小，默认是B，转换成KB  
+                    	if(fsize>opts.fileSize*1024){
+                    		dom.fileToUpload.value="";
+                    		funs.error("文件过大，请勿大于"+opts.fileSize+"M");
+                            return;  
+                    	}
+                        if(!/image\/\w+/.test(file.type)){  
+                        	funs.error("请确保文件为图像类型");
+                            return;  
+                        }
+                    	
+                    	var image = new Image();
+                        var canvas = document.createElement("canvas");
+                        var ctx = canvas.getContext('2d');
+                        var reader = new FileReader();
+                        reader.onload = function() {
+                            var url = reader.result;
+                            image.src = url;
+                        };
+                        image.onload = function() {
+                            var w=cw = image.naturalWidth,
+                                h=ch = image.naturalHeight;
+                            
+                            if(opts.width) cw = opts.width;
+                            if(opts.height) cw = opts.height;
+                            
+                            if(opts.width && !opts.height){
+                            	ch = opts.width*h/w;
+                            }
+                            if(opts.height && !opts.width){
+                            	cw = opts.height*w/h;
+                            }
+                            
+                            canvas.width = cw;
+                            canvas.height = ch;
+                            ctx.drawImage(image, 0, 0, w, h, 0, 0, cw, ch);
+                            funs.fileUpload(canvas,file.name,index);
+                        };
+                        reader.readAsDataURL(file);
+                    },
+                    fileUpload: function(canvas,filename,index) {
+                        var data = canvas.toDataURL("image/jpeg", 1);
+                        //dataURL 的格式为 “data:image/png;base64,****”,逗号之前都是一些说明性的文字，我们只需要逗号之后的就行了
+                        data = data.split(',')[1];
+                        data = window.atob(data);
+                        var ia = new Uint8Array(data.length);
+                        for (var i = 0; i < data.length; i++) {
+                            ia[i] = data.charCodeAt(i);
+                        };
+                        //canvas.toDataURL 返回的默认格式就是 image/png
+                        var blob = new Blob([ia], {
+                            type: "image/jpeg"
+                        });
+                        var fd = new FormData();
+                        var name = self.attr("name");
+                        fd.append(name, blob,filename);
+                        
+                		$(self).hide();
+                                                
+                        $.ajax({  
+                            url: opts.url,  
+                            type: 'POST',  
+                            data: fd,  
+                            async: false,  
+                            cache: false,  
+                            contentType: false,  
+                            processData: false,  
+                            success: function (res) { 
+                            	if($(':hidden[name='+name+']').length>1){
+                            		$(':hidden[name='+name+']').each(function(i){
+                            			if(i>0 && $(this).attr("type")!="file"){
+                            				$(this).remove();
+                            			}
+                            		});
+                            	}
+                				eval("var data="+res);
+                				if(data.url){
+                					if(name){
+                						$(self).after('<input type="hidden" name="'+name+'" value="'+data.url+'" >');
+                					}
+                					
+                					if(opts.success){
+                    					opts.success(data,self,imgsCount);  
+                    				}
+                					
+                				}else{
+                					myalert("图片上传失败"+data.error);
+                				}
+                				
+                				
+                				
+                				
+                            	
+                            },
+                            error: function (res) {  
+                            	myLayer.clear();
+                				$(self).show();
+                            }
+                       }); 
+                       if(selectFiles[index+1]){
+                    	   funs.compress(selectFiles[index+1],index+1);
+                       }else{
+                    	   myLayer.clear();
+                    	   $(self).show();
+                    	   $(self).val("");
+                    	   selectFiles=null;
+                    	   imgsCount=0;
+                       }
+	                   
+                    }
+                };
+                funs.bindEvent();
+            });
+        }
+    });

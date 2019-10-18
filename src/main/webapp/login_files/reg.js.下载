@@ -1,0 +1,293 @@
+!function (win, $) {
+    'use strict';
+    var Reg = function () {
+        this.$J_userPhone = $('#J_userPhone');    //填写注册的手机号
+        this.$J_country = $('#J_country');        //国家
+        this.$J_numArea = $('#J_numArea');        //国家区号
+        this.$J_userPhone = $('#J_userPhone');        //国家区号
+        this.$J_regNow=$('#J_regNow');            //立即注册验证码
+        this.$J_subNext=$('#J_subNext');          //下一步
+        this.$J_back=$('#J_back');                //返回上一步
+        this.$J_getCode=$('#J_getCode');          //注册获取验证码
+        this.$J_inputCode=$('#J_inputCode');      //注册获取到的验证码文本框
+        this.$J_sendTo=$('#J_sendTo');          //发送验证码到指定手机（文本）
+        this.$J_setPwd=$('#J_setPwd');          //首次设置密码6-14位
+        this.$J_conPwd=$('#J_conPwd');          //再次输入密码
+        this.$J_pwdNext=$('#J_pwdNext');        //设置密码后提交至下一步
+        this.$J_complete=$('#J_complete');        //点击完成
+        this.$headimg_thub_url=$('#headimg_thub_url');
+        this.$ui_memo=$('#ui_memo');
+        this.$nick_name=$('#nick_name');
+        this.init();
+    };
+    var countdown=60;
+    Reg.prototype = {
+        constructor: Reg,
+        init: function () {
+            var _this = this;
+            $('#J_dump').on('click',function(e){
+                e.stopPropagation();
+                window.location.href='/member/';
+            });
+            $('#J_reg').on('click',function(e){
+                e.stopPropagation();
+                $('#loginForm').hide();
+                $('.register-content').show();
+                $('.reg-step').show();
+            });
+            $('#J_log').on('click',function(e){
+                e.stopPropagation();
+                $('.register-content').hide();
+                $('.reg-step').hide();
+                $('.sent-step').hide();
+                $('.password-step').hide();
+                $('.register-complete').hide();
+                $('#loginForm').show();
+            });
+            this.$J_country.on('click',function(e){
+                e.stopPropagation();
+                $('#J_countryList').toggle();
+                $('#J_numList').hide();
+            });
+            this.$J_numArea.on('click',function(e){
+                e.stopPropagation();
+                $('#J_numList').toggle();
+                $('#J_countryList').hide();
+            });
+            $('body').on('click',function(){
+                $('#J_numList').hide();
+                $('#J_countryList').hide();
+            });
+
+            $('#J_countryList a').on('click', function () {
+                var $this=$(this);
+                var countryName=$this.find('span').html();
+                var countryNumber=$this.attr('data-number');
+                _this.$J_country.find('span').html(countryName);
+                _this.$J_country.attr('data-number',countryNumber);
+            });
+            $('#J_numList a').on('click', function () {
+                var $this=$(this);
+                var countryCode=$this.find('span').html();
+                var areaNum=$this.attr('data-code');
+                _this.$J_numArea.find('span').html(countryCode);
+                _this.$J_numArea.attr('data-code',areaNum);
+            });
+            //成功完成，点击完成到我的个人中心
+            this.$J_complete.on('click',function(){
+                    _this.reg(); //注册！
+            });
+            //点击注册按钮开始注册
+            this.$J_regNow.on('click', function () {
+                if (!_this.isMobile()) {
+                    //跳到发送验证码
+                    _this.warning('',false);
+                    if(countdown==60){
+                        _this.sendCode();
+                    }
+
+                }
+                return false;
+            });
+            //成功获取验证码后填入，点击下一步进行注册
+            this.$J_subNext.on('click',function(){
+                var codeVal = _this.$J_inputCode.val();//填入验证码的数值
+                if (codeVal === "" || codeVal.length < 4) {
+                    _this.warning('请输入验证码并且验证码大于4位!');
+                    _this.$J_inputCode.focus();
+                    return false;
+                }else{
+                    _this.warning("",false);//重置错误提示框文字并隐藏
+                    _this.checkCode();
+                    //_this.reg(); //注册！
+                }
+
+            });
+            //发送验证码按钮
+            this.$J_getCode.on('click', function () {
+                if (!_this.isMobile() && countdown==60) {
+                    _this.warning("",false);//重置错误提示框文字并隐藏
+                    _this.sendCode();
+                }
+                return false;
+            });
+            //返回上一步
+            this.$J_back.on('click', function () {
+                $('.reg-step').show();
+                $('.sent-step').hide();
+                _this.$J_userPhone.focus();
+            });
+            //输入密码后验证密码规则并提交
+            this.$J_pwdNext.on('click',function(){
+                var setpwdVal = _this.$J_setPwd.val();//首次设置的密码6-14位
+                var conpwdVal = _this.$J_conPwd.val();//再次设置的密码
+                if (setpwdVal === "" || setpwdVal.length < 6 || setpwdVal.length > 14) {
+                    _this.warning('请输入密码且密码大于6位小于14位!');
+                    _this.$J_setPwd.focus();
+                    return false;
+                }else if(conpwdVal === "" || conpwdVal!=setpwdVal){
+                    _this.warning('两次输入的密码不一致!');
+                    _this.$J_conPwd.focus();
+                    return false;
+                }else{
+                	_this.regAjax();
+                }
+
+            });
+        },
+        isMobile:function(){
+            var uPhoneVal = this.$J_userPhone.val(),
+                regMoible=/^[1][3,4,5,7,8,9][0-9]{9}$/;
+            if(uPhoneVal==="" || !regMoible.test(uPhoneVal)){
+                this.warning('请输入正确的手机号码！');
+                return true;
+            }
+            return false;
+        },
+        resetTime:function(obj){
+            var _this=this;
+            if (countdown == 0) {
+                obj.html("重新获取");
+                countdown = 60;
+                return;
+            }else{
+                obj.html("重新发送(" + countdown + ")");
+                countdown--;
+            }
+            setTimeout(function() {
+                _this.resetTime(obj);
+            },1000);
+        },
+        sendCode:function(){
+            var _this=this;
+            _this.sendAjax();
+        },
+        checkCode:function(){
+            var _this=this;
+            _this.checkAjax();
+        },
+        checkAjax:function() {
+            var _this=this;
+            var mobileVal=_this.$J_userPhone.val();
+            var codeVal=_this.$J_inputCode.val();
+            var obj = _this.$J_getCode;
+            $.ajax({
+            	url: "/login.code.php?do=checkcode",
+                type:'POST',
+                data:({tel:mobileVal,code:codeVal}),
+                dataType:'json',
+                success: function(jo){
+                	 if(jo.succ){
+                         _this.warning("",false);//发送成功清除掉错误提示语
+                         $('.sent-step').hide();
+                         $('.password-step').show();
+                     }else{
+                         _this.warning(jo.msg);
+                     }
+                },
+                error:function(){
+                    alert('请求中断，请重新尝试');
+                }
+            });
+
+        },
+        regAjax:function() {
+            var _this=this;
+            var mobileVal=_this.$J_userPhone.val();
+            var codeVal=_this.$J_inputCode.val();
+            var userpassVal=_this.$J_setPwd.val();
+            var confpassVal=_this.$J_conPwd.val();
+            var obj = _this.$J_getCode;
+            var defaultVal = this.$J_pwdNext.val();
+            _this.warning('',false);
+            _this.$J_pwdNext.addClass("disabled").attr({"value": "注册中...", "disabled": true});
+            $.ajax({
+            	url: "/login.code.php?do=regist",
+                type:'POST',
+                data:({tel:mobileVal,code:codeVal,userpass:userpassVal,confpass:confpassVal}),
+                dataType:'json',
+                success: function(jo){
+                	 if(jo.succ){
+                         _this.warning("",false);//发送成功清除掉错误提示语
+                         $('.password-step').hide();
+                         $('.register-content').hide();
+                         $('.register-complete').show();
+                     }else{
+                         _this.warning(jo.msg);
+                     }
+                },
+                error:function(){
+                    alert('请求中断，请重新尝试');
+                },
+                complete:function(){
+                    _this.$J_pwdNext.removeClass("disabled").prop("disabled", false).attr("value", defaultVal);
+                }
+            });
+
+        },
+        sendAjax:function() {
+            var _this=this;
+            var mobileVal=_this.$J_userPhone.val();
+            var obj = _this.$J_getCode;
+            $.ajax({
+            	url: "/login.code.php?do=tel_code&use=regist",
+                type:'POST',
+                data:({tel:mobileVal}),
+                dataType:'json',
+                success: function(jo){
+                	 if(jo.succ){
+                         _this.resetTime(obj);
+                         _this.warning("",false);//发送成功清除掉错误提示语
+                         $('.reg-step').hide();
+                         $('.sent-step').show();
+                         var _areaCode=_this.$J_numArea.find('span').html();
+                         var _mobile=_this.$J_userPhone.val();
+                         _this.$J_sendTo.html(_areaCode+" "+_mobile);
+                     }else{
+                         _this.warning(jo.msg);
+                     }
+                },
+                error:function(){
+                    alert('请求中断，请重新尝试');
+                }
+            });
+
+        },
+        reg:function(){
+            var headimg_thub_urlVal = this.$headimg_thub_url.val(),
+            	nick_nameVal=this.$nick_name.val(),
+            	ui_memoVal = this.$ui_memo.val(),
+                _this = this;
+            _this.warning('',false);
+            $.ajax({
+                url:'/member.code.php?do=myinfo',
+                type:'POST',
+                data:({headimg_thub_url:headimg_thub_urlVal,nick_name:nick_nameVal,ui_memo:ui_memoVal}),
+                dataType:'json',
+                success: function(jo){
+                    if(jo.succ){
+                    	window.location.href="/member/";
+                    }else{
+                        _this.warning(jo.msg);
+                    }
+                },
+                error:function(){
+                    alert('请求中断，请重新尝试');
+                }
+            });
+        },
+        warning: function (msg, isShow, longMsg) {
+            /* 错误提示 */
+            /* 提示信息,[是否显示](默认显示) */
+            var msg = msg || "", isShow = isShow === false ? isShow : true;
+            var error_msg = $(".reg-error").find('.login-msg-error');
+            error_msg.text(msg);
+            if (isShow) {
+                error_msg.html($.trim(msg)).show();
+            } else {
+                error_msg.hide();
+            }
+        }
+    };
+    new Reg();
+}(window, jQuery);
